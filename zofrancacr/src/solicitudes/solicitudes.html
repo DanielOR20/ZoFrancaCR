@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Solicitudes - ZoFranca</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="solicitudes.css">
+</head>
+<body class="zofranca-body">
+
+    <aside class="sidebar">
+        <div class="logo-area">
+            <h2>ZoFranca</h2>
+        </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item"><span class="icon">📊</span> Dashboard</a>
+            <a href="#" class="nav-item"><span class="icon">🏢</span> Empresas</a>
+            <a href="#" class="nav-item"><span class="icon">👥</span> Empleados</a>
+            <a href="#" class="nav-item"><span class="icon">📄</span> Documentos</a>
+            <a href="#" class="nav-item active"><span class="icon">📋</span> Solicitudes</a>
+            <a href="#" class="nav-item"><span class="icon">📈</span> Reportes</a>
+            <a href="#" class="nav-item"><span class="icon">👤</span> Usuarios</a>
+            <a href="#" class="nav-item"><span class="icon">⚙️</span> Configuración</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        
+        <header class="top-header">
+            <div class="search-top">
+                <input type="text" placeholder="Buscar...">
+            </div>
+            <div class="user-area">
+                <div class="user-info-text">
+                    <span class="user-name">Admin Usuario</span>
+                    <span class="user-role">Administrador General</span>
+                </div>
+                <div class="avatar-circle">A</div>
+            </div>
+        </header>
+
+        <section class="content-header">
+            <div class="title-area">
+                <h1>Gestión de Solicitudes</h1>
+                <p>Centro de control administrativo para la revisión, aprobación y seguimiento de todas las solicitudes emitidas por las empresas del régimen.</p>
+            </div>
+            <div class="header-buttons">
+                <button id="btnNuevaSolicitud" class="btn-primary">+ Nueva Solicitud Interna</button>
+                <button class="btn-secondary">⚙️ Filtros Avanzados</button>
+            </div>
+        </section>
+
+        <section class="kpi-cards">
+            <div class="card">
+                <div class="kpi-icon red-bg">⚠️</div>
+                <div class="kpi-data">
+                    <h3>ALTA PRIORIDAD</h3>
+                    <div class="kpi-number">12</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="kpi-icon blue-bg">📁</div>
+                <div class="kpi-data">
+                    <h3>EN REVISIÓN</h3>
+                    <div class="kpi-number">45</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="kpi-icon green-bg">✅</div>
+                <div class="kpi-data">
+                    <h3>APROBADAS (MES)</h3>
+                    <div class="kpi-number">128</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="kpi-icon dark-bg">📊</div>
+                <div class="kpi-data">
+                    <h3>TOTAL ACTIVAS</h3>
+                    <div class="kpi-number">342</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="filters-bar">
+            <div class="search-field-large">
+                <input type="text" placeholder="Buscar por Número de Solicitud o Empresa...">
+                <button class="btn-search-blue">Buscar</button>
+            </div>
+        </section>
+
+        <section class="table-container">
+            <table class="solicitudes-data-table">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Empresa</th>
+                        <th>Tipo de Solicitud</th>
+                        <th>Fecha Emisión</th>
+                        <th>Prioridad</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="solicitudesTableBody">
+                    <tr>
+                        <td class="req-id">REQ-2023-0891</td>
+                        <td>
+                            <div class="company-cell">
+                                <span class="badge-company me">ME</span>
+                                <span class="company-name">MedTech Innovators S.A.</span>
+                            </div>
+                        </td>
+                        <td>Ampliación de Planta</td>
+                        <td>24 Oct, 2023</td>
+                        <td><span class="priority-dot high">● Alta</span></td>
+                        <td><span class="status-badge review">En revisión</span></td>
+                        <td><button class="btn-action-view">Ver</button></td>
+                    </tr>
+                    <tr>
+                        <td class="req-id">REQ-2023-0890</td>
+                        <td>
+                            <div class="company-cell">
+                                <span class="badge-company gl">GL</span>
+                                <span class="company-name">Global Logistics CR</span>
+                            </div>
+                        </td>
+                        <td>Ingreso Equipo Especial</td>
+                        <td>23 Oct, 2023</td>
+                        <td><span class="priority-dot medium">● Media</span></td>
+                        <td><span class="status-badge new">Nueva</span></td>
+                        <td><button class="btn-action-view">Ver</button></td>
+                    </tr>
+                    <tr>
+                        <td class="req-id">REQ-2023-0885</td>
+                        <td>
+                            <div class="company-cell">
+                                <span class="badge-company as">AS</span>
+                                <span class="company-name">AeroSystems Ltda.</span>
+                            </div>
+                        </td>
+                        <td>Renovación Carnets Seguridad</td>
+                        <td>20 Oct, 2023</td>
+                        <td><span class="priority-dot low">● Baja</span></td>
+                        <td><span class="status-badge approved">Aprobada</span></td>
+                        <td><button class="btn-action-view">Ver</button></td>
+                    </tr>
+                    <tr>
+                        <td class="req-id">REQ-2023-0882</td>
+                        <td>
+                            <div class="company-cell">
+                                <span class="badge-company me">ME</span>
+                                <span class="company-name">MedTech Innovators S.A.</span>
+                            </div>
+                        </td>
+                        <td>Permiso Trabajo Fuera Horario</td>
+                        <td>18 Oct, 2023</td>
+                        <td><span class="priority-dot medium">● Media</span></td>
+                        <td><span class="status-badge rejected">Rechazada</span></td>
+                        <td><button class="btn-action-view">Ver</button></td>
+                    </tr>
+                    <tr>
+                        <td class="req-id">REQ-2023-0850</td>
+                        <td>
+                            <div class="company-cell">
+                                <span class="badge-company da">DA</span>
+                                <span class="company-name">DataCore Central</span>
+                            </div>
+                        </td>
+                        <td>Reporte Trimestral Operaciones</td>
+                        <td>01 Oct, 2023</td>
+                        <td><span class="priority-dot medium">● Media</span></td>
+                        <td><span class="status-badge finalized">Finalizada</span></td>
+                        <td><button class="btn-action-view">Ver</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer class="table-footer">
+            <div class="showing-entries">Mostrando 1-5 de 342 solicitudes</div>
+            <div class="pagination">
+                <button class="page-nav">&lt;</button>
+                <button class="page-num active">1</button>
+                <button class="page-num">2</button>
+                <button class="page-num">3</button>
+                <span class="dots">...</span>
+                <button class="page-num">69</button>
+                <button class="page-nav">&gt;</button>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="solicitudes.js"></script>
+</body>
+</html>
