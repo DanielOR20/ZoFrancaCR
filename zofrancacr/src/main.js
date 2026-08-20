@@ -1,60 +1,112 @@
-import './style.css'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.js'
+import "./style.css";
+import "./login/login.css";
+import "./login/login.js";
 
-document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+const app = document.querySelector("#app");
 
-<div class="ticks"></div>
+if (app) {
+  app.innerHTML = `
+    <main class="auth-page">
+      <div class="auth-page__overlay"></div>
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+      <section class="auth-shell">
+        <aside class="auth-brand">
+          <div class="brand-orb" aria-hidden="true"></div>
+          <div class="auth-brand__badge">ZOFRANCACR</div>
+          <p>
+            Gestiona tu acceso como Empresa o Colaborador con una experiencia limpia,
+            moderna y enfocada en productividad.
+          </p>
+        </aside>
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+        <section class="auth-card">
+          <div class="auth-card__topbar">
+            <span class="auth-pill auth-pill--active" data-view-tab="login">Iniciar sesión</span>
+            <span class="auth-pill" data-view-tab="register">Registrarse</span>
+          </div>
 
-setupCounter(document.querySelector('#counter'))
+          <div class="auth-panel auth-panel--active" data-view="login">
+            <div class="auth-heading">
+              <h2>Bienvenido a ZOFRANCACR</h2>
+              <p>Accede con tu correo y contraseña para continuar.</p>
+            </div>
+
+            <form class="auth-form" id="loginForm">
+              <label class="field">
+                <span>Correo electrónico</span>
+                <input type="email" name="email" placeholder="usuario@empresa.com" autocomplete="email" required>
+              </label>
+
+              <label class="field">
+                <span>Contraseña</span>
+                <div class="password-field">
+                  <input id="loginPassword" type="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+                  <button class="icon-button" type="button" data-password-toggle aria-label="Mostrar contraseña">
+                    <svg class="icon-eye icon-eye--open" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                      <circle cx="12" cy="12" r="2.5"></circle>
+                    </svg>
+                    <svg class="icon-eye icon-eye--closed" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m3 3 18 18"></path>
+                      <path d="M10.6 6.2A10.6 10.6 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-3 3.7"></path>
+                      <path d="M6.2 6.2C3.6 8 2 12 2 12s3.5 6 10 6c.8 0 1.5-.1 2.2-.3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </label>
+
+              <div class="form-row">
+                <label class="check">
+                  <input type="checkbox" name="remember">
+                  <span>Recordarme</span>
+                </label>
+                <a href="#" class="link">¿Olvidaste tu contraseña?</a>
+              </div>
+
+              <button class="primary-button" type="submit">Ingresar</button>
+            </form>
+          </div>
+
+          <div class="auth-panel" data-view="register">
+            <div class="auth-heading">
+              <h2>Crear cuenta</h2>
+              <p>Regístrate y define el rol con el que accederás al portal.</p>
+            </div>
+
+            <form class="auth-form" id="registerForm">
+              <label class="field">
+                <span>Rol</span>
+                <select id="registerRoleSelect" name="role">
+                  <option value="empresa">Empresa</option>
+                  <option value="colaborador">Colaborador</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Nombre completo</span>
+                <input type="text" name="name" placeholder="Tu nombre completo" autocomplete="name" required>
+              </label>
+
+              <label class="field">
+                <span>Correo electrónico</span>
+                <input type="email" name="email" placeholder="correo@dominio.com" autocomplete="email" required>
+              </label>
+
+              <label class="field">
+                <span>Contraseña</span>
+                <input type="password" name="password" placeholder="Crea una contraseña" autocomplete="new-password" required>
+              </label>
+
+              <button class="primary-button" type="submit">Registrarse</button>
+            </form>
+          </div>
+
+          <p class="switch-copy">
+            <span data-switch-copy>¿No tienes cuenta? </span>
+            <a href="#" class="link" data-switch-link>Registrarse</a>
+          </p>
+        </section>
+      </section>
+    </main>
+  `;
+}

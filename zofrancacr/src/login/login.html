@@ -3,69 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZoFrancaCR - Login</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="style.css">
+  <title>ZOFRANCACR | Acceso</title>
+  <link rel="stylesheet" href="./login.css">
 </head>
-<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
-  <div class="bg-white rounded-2xl shadow-xl flex flex-col md:flex-row w-full max-w-4xl overflow-hidden min-h-[520px]">
-    
-    <!-- Panel Izquierdo: Marca -->
-    <div class="md:w-1/2 bg-gradient-to-b from-slate-600 via-slate-800 to-[#0A2540] p-10 flex flex-col justify-end text-white relative">
-      <div class="w-8 h-8 bg-emerald-600 rounded-full mb-8"></div>
-      <h3 class="font-bold text-lg mb-2">Estabilidad y Crecimiento</h3>
-      <p class="text-xs text-slate-300 leading-relaxed">
-        Plataforma de gestión integral para zonas francas. Optimice sus procesos aduaneros, logísticos y fiscales con seguridad de grado institucional.
-      </p>
-    </div>
+<body>
+  <main class="auth-page">
+    <div class="auth-page__overlay"></div>
 
-    <!-- Panel Derecho: Formulario -->
-    <div class="md:w-1/2 p-10 flex flex-col justify-center">
-      <h2 class="text-xl font-bold text-slate-800 mb-1">ZoFrancaCR</h2>
-      <p class="text-xs text-slate-500 mb-6">Ingrese sus credenciales corporativas para acceder al portal de gestión.</p>
+    <section class="auth-shell">
+      <aside class="auth-brand">
+        <div class="brand-orb" aria-hidden="true"></div>
+        <div class="auth-brand__badge">ZOFRANCACR</div>
+        <p>
+          Gestiona tu acceso como Empresa o Colaborador con una experiencia limpia,
+          moderna y enfocada en productividad.
+        </p>
+      </aside>
 
-      <form class="space-y-4" onsubmit="event.preventDefault();">
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Correo Electrónico</label>
-          <div class="relative">
-            <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
-            <input type="email" value="usuario@empresa.com" class="w-full pl-9 pr-3 py-2 border rounded-lg text-xs focus:ring-1 focus:ring-sky-600 outline-none">
+      <section class="auth-card">
+        <div class="auth-card__topbar">
+          <span class="auth-pill auth-pill--active" data-view-tab="login">Iniciar sesión</span>
+          <span class="auth-pill" data-view-tab="register">Registrarse</span>
+        </div>
+
+        <div class="auth-panel auth-panel--active" data-view="login">
+          <div class="auth-heading">
+            <h2>Bienvenido a ZOFRANCACR</h2>
+            <p>Accede con tu correo y contraseña para continuar.</p>
           </div>
+
+          <form class="auth-form" id="loginForm">
+            <label class="field">
+              <span>Correo electrónico</span>
+              <input type="email" name="email" placeholder="usuario@empresa.com" autocomplete="email" required>
+            </label>
+
+            <label class="field">
+              <span>Contraseña</span>
+              <div class="password-field">
+                <input id="loginPassword" type="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+                <button class="icon-button" type="button" data-password-toggle aria-label="Mostrar contraseña">
+                  <svg class="icon-eye icon-eye--open" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                    <circle cx="12" cy="12" r="2.5"></circle>
+                  </svg>
+                  <svg class="icon-eye icon-eye--closed" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m3 3 18 18"></path>
+                    <path d="M10.6 6.2A10.6 10.6 0 0 1 12 6c6.5 0 10 6 10 6a18 18 0 0 1-3 3.7"></path>
+                    <path d="M6.2 6.2C3.6 8 2 12 2 12s3.5 6 10 6c.8 0 1.5-.1 2.2-.3"></path>
+                  </svg>
+                </button>
+              </div>
+            </label>
+
+            <div class="form-row">
+              <label class="check">
+                <input type="checkbox" name="remember">
+                <span>Recordarme</span>
+              </label>
+              <a href="#" class="link">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button class="primary-button" type="submit">Ingresar</button>
+          </form>
         </div>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Contraseña</label>
-          <div class="relative">
-            <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
-            <input type="password" value="••••••••" class="w-full pl-9 pr-9 py-2 border rounded-lg text-xs focus:ring-1 focus:ring-sky-600 outline-none">
-            <i data-lucide="eye" class="w-4 h-4 text-slate-400 absolute right-3 top-3 cursor-pointer"></i>
+        <div class="auth-panel" data-view="register">
+          <div class="auth-heading">
+            <h2>Crear cuenta</h2>
+            <p>Regístrate y define el rol con el que accederás al portal.</p>
           </div>
+
+          <form class="auth-form" id="registerForm">
+            <label class="field">
+              <span>Rol</span>
+              <select id="registerRoleSelect" name="role">
+                <option value="empresa">Empresa</option>
+                <option value="colaborador">Colaborador</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Nombre completo</span>
+              <input type="text" name="name" placeholder="Tu nombre completo" autocomplete="name" required>
+            </label>
+
+            <label class="field">
+              <span>Correo electrónico</span>
+              <input type="email" name="email" placeholder="correo@dominio.com" autocomplete="email" required>
+            </label>
+
+            <label class="field">
+              <span>Contraseña</span>
+              <input type="password" name="password" placeholder="Crea una contraseña" autocomplete="new-password" required>
+            </label>
+
+            <button class="primary-button" type="submit">Registrarse</button>
+          </form>
         </div>
 
-        <div class="flex items-center justify-between text-xs">
-          <label class="flex items-center text-slate-500">
-            <input type="checkbox" class="mr-1 rounded border-slate-300"> Recordarme
-          </label>
-          <a href="#" class="text-sky-700 hover:underline">¿Olvidaste tu contraseña?</a>
-        </div>
+        <p class="switch-copy">
+          <span data-switch-copy>¿No tienes cuenta? </span>
+          <a href="#" class="link" data-switch-link>Registrarse</a>
+        </p>
+      </section>
+    </section>
+  </main>
 
-        <button class="w-full bg-[#003366] text-white py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-[#002244] transition">
-          Iniciar sesión <i data-lucide="log-in" class="w-4 h-4"></i>
-        </button>
-
-        <button type="button" class="w-full border text-slate-700 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-slate-50 transition">
-          <i data-lucide="fingerprint" class="w-4 h-4 text-slate-500"></i> Ingresar con Biometría
-        </button>
-      </form>
-
-      <p class="text-[10px] text-slate-400 text-center mt-6">
-        Sistema de Acceso Restringido. El uso de esta plataforma está sujeto a los 
-        <a href="#" class="text-sky-700 underline">Términos de Servicio</a> institucionales.
-      </p>
-    </div>
-
-  </div>
-  <script src="script.js"></script>
+  <script src="./login.js"></script>
 </body>
 </html>
