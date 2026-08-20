@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Detalle de Empresa - ZoFrancaCR Admin" />
+  <meta name="theme-color" content="#001C3D" />
+  <title>Detalle de Empresa - ZoFrancaCR</title>
+
+  <!-- Google Fonts: Inter & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./verempresas.css" />
+</head>
+<body>
+
+  <div class="app-layout">
+
+    <!-- ========== SIDEBAR NAVEGACIÓN ========== -->
+    <aside class="app-sidebar" id="appSidebar" aria-label="Navegación principal del panel">
+      
+      <!-- Brand Logo Header -->
+      <div class="sidebar-brand">
+        <a href="../../inicio/inicio.html" class="brand-link" aria-label="ZoFrancaCR - Volver al portal">
+          <img src="./logo-white.png" alt="ZoFrancaCR" class="brand-logo" />
+        </a>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="sidebar-nav">
+        <ul class="nav-menu" role="list">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="../empresas.html" class="nav-link is-active" aria-current="page">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                <line x1="9" y1="22" x2="9" y2="22.01"></line>
+                <line x1="15" y1="22" x2="15" y2="22.01"></line>
+                <line x1="9" y1="6" x2="9" y2="6.01"></line>
+                <line x1="15" y1="6" x2="15" y2="6.01"></line>
+                <line x1="9" y1="10" x2="9" y2="10.01"></line>
+                <line x1="15" y1="10" x2="15" y2="10.01"></line>
+                <line x1="9" y1="14" x2="9" y2="14.01"></line>
+                <line x1="15" y1="14" x2="15" y2="14.01"></line>
+                <line x1="9" y1="18" x2="9" y2="18.01"></line>
+                <line x1="15" y1="18" x2="15" y2="18.01"></line>
+              </svg>
+              <span>Empresas</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Empleados</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span>Documentos</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span>Solicitudes</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span>Reportes</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>Usuarios</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+              <span>Configuración</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    </aside>
+
+    <!-- ========== CONTENIDO PRINCIPAL ========== -->
+    <div class="app-main-wrapper">
+
+      <!-- Header Superior (Topbar) -->
+      <header class="app-topbar">
+        
+        <!-- Buscador Global Superior -->
+        <div class="topbar-search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="topbar-search-input" placeholder="Buscar..." aria-label="Búsqueda global" />
+        </div>
+
+        <!-- Perfil de Usuario & Logout -->
+        <div class="topbar-user-area">
+          <div class="user-info">
+            <span class="user-name">Admin Usuario</span>
+            <span class="user-role">Administrador General</span>
+          </div>
+
+          <div class="user-avatar" aria-label="Avatar de usuario">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+
+          <button class="btn-icon-logout" id="logoutBtn" aria-label="Cerrar sesión">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+
+      </header>
+
+      <!-- Contenido Principal de Detalle -->
+      <main class="app-content">
+
+        <!-- Header de la Vista de Detalle con Botón Atrás + Título + Acciones -->
+        <div class="company-detail-header">
+          
+          <div class="header-left-cluster">
+            <!-- Botón Volver -->
+            <a href="../empresas.html" class="btn-back-square" aria-label="Volver a la lista de empresas">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </a>
+
+            <div class="header-company-meta">
+              <h1 class="detail-company-name" id="dispCompanyName">TechCorp Industries Costa Rica S.A.</h1>
+              <p class="detail-company-id">CÉDULA JURÍDICA: <span id="dispLegalId">3-101-555444</span></p>
+            </div>
+          </div>
+
+          <!-- Acciones de Cabecera: Badge + Editar + Eliminar -->
+          <div class="header-right-actions">
+            <span class="status-badge-lg status-badge--active" id="dispStatusBadge">Activa</span>
+            
+            <button class="btn-action-pill btn-action-edit" id="btnEditCompany">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span>Editar</span>
+            </button>
+
+            <button class="btn-action-pill btn-action-delete" id="btnDeleteCompany">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Eliminar</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Grid Principal: Menú Lateral de Pestañas + Tarjetas de Información -->
+        <div class="detail-layout-grid">
+
+          <!-- Columna 1: Menú de Pestañas Interactivas -->
+          <aside class="detail-tabs-sidebar" aria-label="Secciones de detalle de la empresa">
+            <nav class="detail-tabs-nav">
+              <button class="tab-button is-active" data-tab="tab-general">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                  <line x1="9" y1="6" x2="15" y2="6"></line>
+                  <line x1="9" y1="10" x2="15" y2="10"></line>
+                  <line x1="9" y1="14" x2="15" y2="14"></line>
+                </svg>
+                <span>Información General</span>
+              </button>
+
+              <button class="tab-button" data-tab="tab-contacto">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>Contacto</span>
+              </button>
+
+              <button class="tab-button" data-tab="tab-representante">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="11" cy="7" r="4"></circle>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                </svg>
+                <span>Representante Legal</span>
+              </button>
+
+              <button class="tab-button" data-tab="tab-empleados">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                </svg>
+                <span>Empleados</span>
+                <span class="tab-count-badge" id="dispTabEmpCount">142</span>
+              </button>
+
+              <button class="tab-button" data-tab="tab-documentos">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                <span>Documentos</span>
+              </button>
+
+              <button class="tab-button" data-tab="tab-solicitudes">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>Solicitudes</span>
+              </button>
+
+              <button class="tab-button" data-tab="tab-historial">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Historial</span>
+              </button>
+            </nav>
+          </aside>
+
+          <!-- Columna 2: Tarjeta Datos de la Empresa -->
+          <div class="detail-card info-company-card">
+            
+            <div class="card-title-row">
+              <div class="title-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+              </div>
+              <h2 class="card-main-title">Datos de la Empresa</h2>
+            </div>
+
+            <div class="company-fields-list">
+              
+              <div class="data-field-item">
+                <span class="field-label">RAZÓN SOCIAL</span>
+                <p class="field-value" id="dispRazonSocial">TechCorp Industries Costa Rica S.A.</p>
+              </div>
+
+              <div class="data-field-item">
+                <span class="field-label">NOMBRE COMERCIAL</span>
+                <p class="field-value" id="dispNombreComercial">TechCorp CR</p>
+              </div>
+
+              <div class="data-field-item">
+                <span class="field-label">CÉDULA JURÍDICA</span>
+                <p class="field-value" id="dispCedula">3-101-555444</p>
+              </div>
+
+              <div class="data-field-item">
+                <span class="field-label">CATEGORÍA ZONA FRANCA</span>
+                <p class="field-value" id="dispCategoria">Servicios - Categoría C</p>
+              </div>
+
+              <div class="data-field-item">
+                <span class="field-label">FECHA DE INGRESO</span>
+                <p class="field-value" id="dispFechaIngreso">15 de Marzo, 2018</p>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Columna 3: Tarjeta Ubicación Física con Mapa -->
+          <div class="detail-card location-company-card">
+            
+            <div class="card-title-row">
+              <div class="title-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <h2 class="card-main-title">Ubicación Física</h2>
+            </div>
+
+            <div class="location-fields-list">
+              
+              <div class="data-field-item">
+                <span class="field-label">PARQUE INDUSTRIAL</span>
+                <p class="field-value" id="dispParque">Zona Franca Metropolitana</p>
+              </div>
+
+              <div class="data-field-item">
+                <span class="field-label">EDIFICIO / BODEGA</span>
+                <p class="field-value" id="dispEdificio">Edificio B, Nave 4</p>
+              </div>
+
+              <div class="data-field-item">
+                <span class="field-label">PROVINCIA, CANTÓN, DISTRITO</span>
+                <p class="field-value" id="dispDistrito">Heredia, Barreal, Heredia</p>
+              </div>
+
+            </div>
+
+            <!-- Mapa / Render Visual de Ubicación -->
+            <div class="location-map-container">
+              <svg class="map-illustration-svg" viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Fondo estilo mapa satelital / plano esquemático -->
+                <rect width="400" height="160" rx="8" fill="#E8EFF6"/>
+                <!-- Rutas y autopistas -->
+                <path d="M0 40 Q120 20 200 60 T400 30" stroke="#CBDCEE" stroke-width="8" fill="none"/>
+                <path d="M50 160 Q150 110 240 80 T400 120" stroke="#CBDCEE" stroke-width="12" fill="none"/>
+                <path d="M120 0 L150 160" stroke="#DCE8F4" stroke-width="6" fill="none"/>
+                <path d="M280 0 L250 160" stroke="#DCE8F4" stroke-width="6" fill="none"/>
+                <!-- Vía principal conector -->
+                <path d="M30 110 Q140 140 220 80 T380 70" stroke="#93BBE5" stroke-width="4" fill="none" stroke-dasharray="6 4"/>
+                <!-- Bloques de edificios industriales -->
+                <rect x="180" y="45" width="50" height="35" rx="4" fill="#3B82F6" opacity="0.2"/>
+                <rect x="235" y="50" width="30" height="25" rx="3" fill="#3B82F6" opacity="0.25"/>
+                <rect x="150" y="90" width="40" height="30" rx="3" fill="#3B82F6" opacity="0.15"/>
+                <!-- Pin de ubicación interactivo -->
+                <g transform="translate(195, 45)">
+                  <ellipse cx="12" cy="26" rx="8" ry="3" fill="#0F172A" opacity="0.25"/>
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 18 12 18s12-9 12-18c0-6.63-5.37-12-12-12z" fill="#DC2626"/>
+                  <circle cx="12" cy="11" r="4.5" fill="#FFFFFF"/>
+                </g>
+                <!-- Etiquetas del plano -->
+                <text x="18" y="25" fill="#64748B" font-size="10" font-family="sans-serif" font-weight="600">Autopista Gral. Cañas</text>
+                <text x="210" y="145" fill="#0284C7" font-size="10" font-family="sans-serif" font-weight="700">ZF Metropolitana</text>
+              </svg>
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <script src="./verempresas.js"></script>
+</body>
+</html>

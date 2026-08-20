@@ -341,7 +341,7 @@ button, input, select {
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-card);
-  overflow: hidden;
+  position: relative;
 }
 
 /* Barra de Herramientas de la Tabla */
@@ -353,6 +353,8 @@ button, input, select {
   gap: 1rem;
   border-bottom: 1px solid var(--border-subtle);
   flex-wrap: wrap;
+  position: relative;
+  z-index: 20;
 }
 
 /* Buscador de la tabla */
@@ -400,6 +402,7 @@ button, input, select {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  position: relative;
 }
 
 .btn-toolbar {
@@ -436,15 +439,15 @@ button, input, select {
 .filter-dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 8px);
   right: 0;
-  width: 260px;
+  width: 280px;
   background-color: #FFFFFF;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-modal);
-  padding: 1.15rem;
-  z-index: 100;
+  box-shadow: 0 12px 28px rgba(0, 28, 61, 0.18);
+  padding: 1.25rem;
+  z-index: 1000;
 }
 
 .filter-dropdown-menu.is-open {
@@ -629,14 +632,20 @@ button, input, select {
   padding: 0.35rem;
   border-radius: var(--radius-sm);
   transition: all 0.15s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
 }
 
 .btn-action-icon:hover {
   background-color: #E2E8F0;
   color: var(--text-heading);
+}
+
+.btn-action-view:hover {
+  background-color: #E0F2FE;
+  color: #0284C7;
 }
 
 .btn-action-icon svg {
@@ -670,6 +679,14 @@ button, input, select {
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  flex-direction: row;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-direction: row;
 }
 
 .pagination-btn, .pagination-num {

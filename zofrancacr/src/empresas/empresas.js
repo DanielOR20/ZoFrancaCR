@@ -81,7 +81,7 @@
     selectedSector: 'todos',
     selectedStatus: 'todos',
     currentPage: 1,
-    itemsPerPage: 3,
+    itemsPerPage: 6,
   };
 
   // Elementos del DOM
@@ -115,40 +115,53 @@
   const companyStatusInput = document.getElementById('companyStatusInput');
 
   /**
-   * Inicialización
+   * Cargar datos desde localStorage
    */
-  const init = () => {
-    // Cargar empresas adicionales creadas desde la página añadirempresas/añadir.html
+  const loadData = () => {
     try {
       const stored = JSON.parse(localStorage.getItem('zofranca_companies') || '[]');
       if (Array.isArray(stored) && stored.length > 0) {
-        // Combinar sin duplicar por ID
-        const existingIds = new Set(companiesData.map(c => c.id));
-        const newOnes = stored.filter(c => !existingIds.has(c.id));
-        companiesData = [...newOnes, ...companiesData];
+        const storedIds = new Set(stored.map(c => c.id));
+        const nonDuplicateDefaults = companiesData.filter(c => !storedIds.has(c.id));
+        companiesData = [...stored, ...nonDuplicateDefaults];
       }
     } catch (e) {
       console.error('Error cargando localStorage:', e);
     }
-
-    bindEvents();
-    render();
   };
 
   /**
-   * Filtra las empresas según búsqueda y dropdowns
+   * Inicialización
+   */
+  const init = () => {
+    loadData();
+    bindEvents();
+    render();
+
+    // Actualizar si el usuario regresa con el botón Atrás del navegador (bfcache)
+    window.addEventListener('pageshow', () => {
+      loadData();
+      render();
+    });
+  };
+
+  /**
+   * Filtra las empresas según búsqueda y dropdowns (Muestra todas por defecto)
    */
   const getFilteredData = () => {
     return companiesData.filter(item => {
-      const query = state.searchQuery.toLowerCase().trim();
+      const query = (state.searchQuery || '').toLowerCase().trim();
       const matchesSearch = !query || 
-        item.name.toLowerCase().includes(query) ||
-        item.id.toLowerCase().includes(query) ||
-        item.sector.toLowerCase().includes(query) ||
-        item.location.toLowerCase().includes(query);
+        (item.name && item.name.toLowerCase().includes(query)) ||
+        (item.id && item.id.toLowerCase().includes(query)) ||
+        (item.sector && item.sector.toLowerCase().includes(query)) ||
+        (item.location && item.location.toLowerCase().includes(query));
 
-      const matchesSector = state.selectedSector === 'todos' || item.sector === state.selectedSector;
-      const matchesStatus = state.selectedStatus === 'todos' || item.status === state.selectedStatus;
+      const matchesSector = !state.selectedSector || state.selectedSector === 'todos' || 
+        (item.sector && item.sector.trim().toLowerCase() === state.selectedSector.trim().toLowerCase());
+
+      const matchesStatus = !state.selectedStatus || state.selectedStatus === 'todos' || 
+        (item.status && item.status.trim().toLowerCase().startsWith(state.selectedStatus.trim().toLowerCase()));
 
       return matchesSearch && matchesSector && matchesStatus;
     });
@@ -184,13 +197,13 @@
       tableBody.innerHTML = currentPageItems.map(comp => `
         <tr>
           <td>
-            <div class="company-cell">
+            <a href="./verempresas/verempresas.html?id=${comp.id}" class="company-cell" style="text-decoration: none; color: inherit;">
               <div class="company-avatar" aria-hidden="true">${comp.avatar || comp.name.charAt(0).toUpperCase()}</div>
               <div class="company-meta">
                 <span class="company-name">${escapeHtml(comp.name)}</span>
                 <span class="company-id">ID: ${escapeHtml(comp.id)}</span>
               </div>
-            </div>
+            </a>
           </td>
           <td>${escapeHtml(comp.sector)}</td>
           <td>${escapeHtml(comp.location)}</td>
@@ -203,6 +216,12 @@
           <td>${escapeHtml(comp.registeredDate)}</td>
           <td>
             <div class="table-actions-cell">
+              <a href="./verempresas/verempresas.html?id=${comp.id}" class="btn-action-icon btn-action-view" data-id="${comp.id}" aria-label="Ver detalles de ${escapeHtml(comp.name)}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </a>
               <button class="btn-action-icon btn-action-edit" data-id="${comp.id}" aria-label="Editar empresa ${escapeHtml(comp.name)}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
