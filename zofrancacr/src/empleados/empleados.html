@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empleados - ZoFranca</title>
+    <link rel="stylesheet" href="empleados.css">
+</head>
+<body>
+    <div class="empleados-container">
+        <header class="empleados-header">
+            <h1>Módulo de Empleados</h1>
+            <button id="btnNuevoEmpleado" class="btn-primary">+ Nuevo Empleado</button>
+        </header>
+
+        <section class="empleados-table-section">
+            <table class="empleados-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Puesto</th>
+                        <th>Departamento</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaEmpleadosBody">
+                    <tr>
+                        <td>Ana Gómez</td>
+                        <td>Desarrolladora Frontend</td>
+                        <td>Tecnología</td>
+                        <td><span class="status activo">Activo</span></td>
+                        <td>
+                            <button class="btn-action edit">Editar</button>
+                            <button class="btn-action delete">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="empleados.js"></script>
+</body>
+</html>
