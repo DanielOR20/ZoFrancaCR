@@ -1,0 +1,4 @@
+/* Estilos adicionales para la tabla y módulos de Usuarios */
+table tr:hover {
+  background-color: #f8fafc;
+}

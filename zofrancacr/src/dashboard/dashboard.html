@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZoFrancaCR - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 flex min-h-screen text-slate-800">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-[#051E3C] text-slate-300 flex flex-col justify-between p-4 flex-shrink-0">
+    <div>
+      <div class="flex items-center gap-2 px-2 py-4 mb-4">
+        <div class="w-6 h-6 bg-white rounded-sm flex items-center justify-center font-bold text-[#051E3C] text-xs">ZF</div>
+        <span class="text-white font-bold text-lg tracking-wide">ZoFranca</span>
+      </div>
+
+      <nav class="space-y-1">
+        <a href="../dashboard/index.html" class="flex items-center gap-3 px-3 py-2.5 bg-sky-600 text-white rounded-lg text-xs font-medium">
+          <i data-lucide="layout-grid" class="w-4 h-4"></i> Dashboard
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
+          <i data-lucide="building-2" class="w-4 h-4"></i> Empresas
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
+          <i data-lucide="users-2" class="w-4 h-4"></i> Empleados
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
+          <i data-lucide="file-text" class="w-4 h-4"></i> Documentos
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
+          <i data-lucide="clipboard-list" class="w-4 h-4"></i> Solicitudes
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Reportes
+        </a>
+        <a href="../usuarios/index.html" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
+          <i data-lucide="user-cog" class="w-4 h-4"></i> Usuarios
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
+          <i data-lucide="settings" class="w-4 h-4"></i> Configuración
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Contenido Principal -->
+  <main class="flex-1 flex flex-col">
+    <!-- Header -->
+    <header class="h-16 bg-white border-b flex items-center justify-between px-8">
+      <div class="relative w-80">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
+        <input type="text" placeholder="Buscar..." class="w-full pl-9 pr-3 py-1.5 bg-slate-100 rounded-lg text-xs outline-none">
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <p class="text-xs font-bold text-slate-800">Admin Usuario</p>
+          <p class="text-[10px] text-slate-400">Administrador General</p>
+        </div>
+        <div class="w-8 h-8 bg-[#051E3C] text-white rounded-lg flex items-center justify-center">
+          <i data-lucide="user" class="w-4 h-4"></i>
+        </div>
+        <a href="../login/index.html" class="text-rose-500 hover:bg-rose-50 p-2 rounded-lg">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- Contenido Dashboard -->
+    <div class="p-8 space-y-6 overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">Bienvenido, Admin Usuario</h1>
+          <p class="text-xs text-slate-500 mt-1">Resumen general de operaciones y estado del ecosistema de Zonas Francas.</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="px-3 py-1.5 border border-slate-200 text-sky-700 rounded-lg text-xs font-semibold flex items-center gap-2 hover:bg-slate-50">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar Reporte
+          </button>
+          <button class="px-3 py-1.5 bg-[#051E3C] text-white rounded-lg text-xs font-semibold flex items-center gap-2 hover:bg-slate-800">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Nueva Empresa
+          </button>
+        </div>
+      </div>
+
+      <!-- Tarjetas KPi -->
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div class="bg-slate-100/70 p-4 rounded-xl border border-slate-200">
+          <div class="flex items-center gap-2 text-[10px] font-bold uppercase text-slate-500">
+            <i data-lucide="building" class="w-3.5 h-3.5"></i> Total Empresas
+          </div>
+          <div class="flex items-baseline justify-between mt-2">
+            <span class="text-2xl font-bold">52</span>
+            <span class="text-[10px] text-emerald-600 font-semibold">📈 +3%</span>
+          </div>
+        </div>
+
+        <div class="bg-slate-100/70 p-4 rounded-xl border border-slate-200">
+          <div class="flex items-center gap-2 text-[10px] font-bold uppercase text-slate-500">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Activas
+          </div>
+          <div class="flex items-baseline gap-1 mt-2">
+            <span class="text-2xl font-bold">48</span>
+            <span class="text-xs text-slate-400">/ 52</span>
+          </div>
+        </div>
+
+        <div class="bg-red-50/50 p-4 rounded-xl border border-red-100">
+          <div class="flex items-center gap-2 text-[10px] font-bold uppercase text-red-700">
+            <i data-lucide="clock" class="w-3.5 h-3.5"></i> Sol. Pendientes
+          </div>
+          <span class="text-2xl font-bold text-slate-800 mt-2 block">12</span>
+        </div>
+
+        <div class="bg-slate-100/70 p-4 rounded-xl border border-slate-200">
+          <div class="flex items-center gap-2 text-[10px] font-bold uppercase text-slate-500">
+            <i data-lucide="folder" class="w-3.5 h-3.5"></i> Doc. Pendientes
+          </div>
+          <span class="text-2xl font-bold mt-2 block">5</span>
+        </div>
+
+        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+          <div class="flex items-center gap-2 text-[10px] font-bold uppercase text-emerald-700">
+            <i data-lucide="users" class="w-3.5 h-3.5"></i> Empleados
+          </div>
+          <span class="text-2xl font-bold text-slate-800 mt-2 block">8,420</span>
+        </div>
+      </div>
+
+      <!-- Tabla de Actividad -->
+      <div class="bg-slate-100/50 rounded-xl p-4 border">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-sm font-bold">Actividad Reciente</h3>
+          <a href="#" class="text-xs text-slate-500 hover:underline">Ver todo</a>
+        </div>
+        <div class="bg-white rounded-lg border overflow-hidden">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] border-b">
+              <tr>
+                <th class="p-3">Empresa / Entidad</th>
+                <th class="p-3">Acción</th>
+                <th class="p-3">Usuario</th>
+                <th class="p-3">Fecha y Hora</th>
+                <th class="p-3">Estado</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y text-slate-600">
+              <tr>
+                <td class="p-3 font-semibold text-slate-800">Tech Solutions CR S.A.</td>
+                <td class="p-3">Aprobación de Solicitud de Exención</td>
+                <td class="p-3">Admin Principal</td>
+                <td class="p-3">Hoy, 10:45 AM</td>
+                <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[10px]">Completado</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-800">Global Logistics Ltda.</td>
+                <td class="p-3">Actualización de Planilla Mensual</td>
+                <td class="p-3">HR Global</td>
+                <td class="p-3">Ayer, 04:20 PM</td>
+                <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded-full text-[10px]">En Revisión</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-800">AgroExport del Norte S.A.</td>
+                <td class="p-3">Rechazo de Permiso de Operación</td>
+                <td class="p-3">Admin Secundario</td>
+                <td class="p-3">12 Oct, 09:30 AM</td>
+                <td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded-full text-[10px]">Rechazado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

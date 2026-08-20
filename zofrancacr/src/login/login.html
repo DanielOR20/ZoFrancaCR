@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZoFrancaCR - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+  <div class="bg-white rounded-2xl shadow-xl flex flex-col md:flex-row w-full max-w-4xl overflow-hidden min-h-[520px]">
+    
+    <!-- Panel Izquierdo: Marca -->
+    <div class="md:w-1/2 bg-gradient-to-b from-slate-600 via-slate-800 to-[#0A2540] p-10 flex flex-col justify-end text-white relative">
+      <div class="w-8 h-8 bg-emerald-600 rounded-full mb-8"></div>
+      <h3 class="font-bold text-lg mb-2">Estabilidad y Crecimiento</h3>
+      <p class="text-xs text-slate-300 leading-relaxed">
+        Plataforma de gestión integral para zonas francas. Optimice sus procesos aduaneros, logísticos y fiscales con seguridad de grado institucional.
+      </p>
+    </div>
+
+    <!-- Panel Derecho: Formulario -->
+    <div class="md:w-1/2 p-10 flex flex-col justify-center">
+      <h2 class="text-xl font-bold text-slate-800 mb-1">ZoFrancaCR</h2>
+      <p class="text-xs text-slate-500 mb-6">Ingrese sus credenciales corporativas para acceder al portal de gestión.</p>
+
+      <form class="space-y-4" onsubmit="event.preventDefault();">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Correo Electrónico</label>
+          <div class="relative">
+            <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+            <input type="email" value="usuario@empresa.com" class="w-full pl-9 pr-3 py-2 border rounded-lg text-xs focus:ring-1 focus:ring-sky-600 outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Contraseña</label>
+          <div class="relative">
+            <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+            <input type="password" value="••••••••" class="w-full pl-9 pr-9 py-2 border rounded-lg text-xs focus:ring-1 focus:ring-sky-600 outline-none">
+            <i data-lucide="eye" class="w-4 h-4 text-slate-400 absolute right-3 top-3 cursor-pointer"></i>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs">
+          <label class="flex items-center text-slate-500">
+            <input type="checkbox" class="mr-1 rounded border-slate-300"> Recordarme
+          </label>
+          <a href="#" class="text-sky-700 hover:underline">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button class="w-full bg-[#003366] text-white py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-[#002244] transition">
+          Iniciar sesión <i data-lucide="log-in" class="w-4 h-4"></i>
+        </button>
+
+        <button type="button" class="w-full border text-slate-700 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 hover:bg-slate-50 transition">
+          <i data-lucide="fingerprint" class="w-4 h-4 text-slate-500"></i> Ingresar con Biometría
+        </button>
+      </form>
+
+      <p class="text-[10px] text-slate-400 text-center mt-6">
+        Sistema de Acceso Restringido. El uso de esta plataforma está sujeto a los 
+        <a href="#" class="text-sky-700 underline">Términos de Servicio</a> institucionales.
+      </p>
+    </div>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
