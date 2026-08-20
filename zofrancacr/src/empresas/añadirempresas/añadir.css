@@ -1,0 +1,741 @@
+/* ============================================================
+   ZoFrancaCR — añadir.css
+   Estilos Corporativos para el Formulario de Añadir Empresa
+   Diseño: Sidebar Azul Marino Profundo | Menú de Secciones | Tarjetas Ejecutivas
+   ============================================================ */
+
+/* ──────────────────────────────────────────────────────────────
+   1. VARIABLES DE DISEÑO & TOKENS EN :ROOT
+─────────────────────────────────────────────────────────────── */
+:root {
+  /* Paleta Corporativa Principal */
+  --sidebar-bg:       #001C3D;    /* Azul marino oscuro del sidebar */
+  --sidebar-hover:    #002856;    /* Hover de elementos en sidebar */
+  --sidebar-active:   #0B4D9C;    /* Azul brillante del item activo */
+  --sidebar-text:     #A5B9D1;    /* Texto secundario del sidebar */
+  --sidebar-text-act: #FFFFFF;    /* Texto blanco item activo */
+
+  --app-bg:           #F4F7FB;    /* Fondo general de la aplicación */
+  --card-bg:          #FFFFFF;    /* Fondo de tarjetas del formulario */
+  --border-color:     #E2E8F0;    /* Bordes de tarjetas e inputs */
+  --border-subtle:    #F1F5F9;    /* Divisores de secciones */
+
+  /* Botones e Interacciones */
+  --btn-primary-dark: #001C3D;    /* Botón "Guardar empresa" */
+  --btn-primary-hov:  #002D62;    
+  --emerald-green:    #059669;    /* Verde esmeralda */
+  --emerald-bg:       #ECFDF5;    
+
+  /* Escala de Textos */
+  --text-heading:     #0F172A;    /* Títulos principales */
+  --text-body:        #334155;    /* Etiquetas y textos */
+  --text-muted:       #64748B;    /* Subtítulos y metadata */
+  --text-light:       #94A3B8;    /* Placeholders e íconos */
+
+  /* Tipografías */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Montserrat', 'Inter', sans-serif;
+
+  /* Radios & Sombras */
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   2. RESETEO BASE & LAYOUT GENERAL
+─────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text-body);
+  background-color: var(--app-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Layout Principal: Sidebar Izquierdo + Contenido Derecho */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   3. SIDEBAR DE NAVEGACIÓN
+─────────────────────────────────────────────────────────────── */
+.app-sidebar {
+  width: 250px;
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding-block: 1.25rem;
+}
+
+.sidebar-brand {
+  padding-inline: 1.5rem;
+  padding-bottom: 1.75rem;
+}
+
+.brand-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.brand-logo {
+  height: 2.35rem;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Menú de Navegación */
+.sidebar-nav {
+  flex: 1;
+  padding-inline: 0.85rem;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-md);
+  color: var(--sidebar-text);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex-shrink: 0;
+}
+
+.nav-link:hover {
+  background-color: var(--sidebar-hover);
+  color: var(--sidebar-text-act);
+}
+
+.nav-link.is-active {
+  background-color: var(--sidebar-active);
+  color: var(--sidebar-text-act);
+  font-weight: 600;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   4. TOPBAR SUPERIOR (SEARCH & USER)
+─────────────────────────────────────────────────────────────── */
+.app-main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.app-topbar {
+  height: 4.5rem;
+  background-color: transparent;
+  padding-inline: clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* Buscador Superior */
+.topbar-search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 320px;
+}
+
+.search-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--text-light);
+}
+
+.topbar-search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  color: var(--text-heading);
+  font-size: 0.9375rem;
+}
+
+.topbar-search-input::placeholder {
+  color: var(--text-light);
+}
+
+/* Perfil de Usuario */
+.topbar-user-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  line-height: 1.2;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.user-avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  background-color: var(--sidebar-bg);
+  color: #FFFFFF;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.btn-icon-logout {
+  background: transparent;
+  border: none;
+  color: #E05252;
+  cursor: pointer;
+  padding: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease;
+}
+
+.btn-icon-logout:hover {
+  background-color: #FEE2E2;
+}
+
+.btn-icon-logout svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   5. CONTENIDO PRINCIPAL: HEADER DEL FORMULARIO
+─────────────────────────────────────────────────────────────── */
+.app-content {
+  flex: 1;
+  padding-inline: clamp(1.5rem, 3vw, 2.5rem);
+  padding-bottom: 3.5rem;
+}
+
+/* Breadcrumb */
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  margin-bottom: 0.75rem;
+}
+
+.breadcrumb-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.breadcrumb-link:hover {
+  color: var(--text-heading);
+}
+
+.breadcrumb-separator {
+  color: var(--text-light);
+}
+
+.breadcrumb-current {
+  color: var(--text-heading);
+  font-weight: 600;
+}
+
+/* Header de la Vista */
+.form-view-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-view-title {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.form-view-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  max-width: 680px;
+  line-height: 1.5;
+}
+
+.form-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Botones Principales */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-secondary-light {
+  background-color: #FFFFFF;
+  border-color: var(--border-color);
+  color: var(--text-heading);
+}
+
+.btn-secondary-light:hover {
+  background-color: var(--app-bg);
+  border-color: #CBD5E1;
+}
+
+.btn-primary-dark {
+  background-color: var(--btn-primary-dark);
+  color: #FFFFFF;
+  border-color: var(--btn-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary-dark:hover {
+  background-color: var(--btn-primary-hov);
+  border-color: var(--btn-primary-hov);
+}
+
+.btn-icon-svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   6. LAYOUT DEL FORMULARIO CON MENÚ LATERAL
+─────────────────────────────────────────────────────────────── */
+.form-layout-container {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Menú Lateral Izquierdo de Secciones */
+.form-sections-sidebar {
+  position: sticky;
+  top: 1rem;
+}
+
+.form-sections-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background-color: transparent;
+}
+
+.section-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.section-nav-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.section-nav-link:hover {
+  background-color: #EBF1F8;
+  color: var(--text-heading);
+}
+
+.section-nav-link:hover .section-nav-icon {
+  color: var(--text-heading);
+}
+
+.section-nav-link.is-active {
+  background-color: #E1ECF8;
+  color: var(--sidebar-bg);
+  font-weight: 700;
+}
+
+.section-nav-link.is-active .section-nav-icon {
+  color: var(--sidebar-bg);
+}
+
+/* Columna de Tarjetas del Formulario */
+.form-cards-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.company-full-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Tarjeta de Cada Sección */
+.form-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  scroll-margin-top: 1.5rem;
+}
+
+.form-card-header {
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-header-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-icon-box {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-icon-box svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.header-icon--navy {
+  background-color: #EBF1F8;
+  color: var(--sidebar-bg);
+}
+
+.header-icon--blue {
+  background-color: #E0F2FE;
+  color: #0284C7;
+}
+
+.header-icon--green {
+  background-color: var(--emerald-bg);
+  color: var(--emerald-green);
+}
+
+.header-icon--slate {
+  background-color: #F1F5F9;
+  color: #475569;
+}
+
+.form-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+/* Cuerpo de la Tarjeta */
+.form-card-body {
+  padding: 1.75rem;
+}
+
+.form-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-grid-2col .form-group {
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.required-asterisk {
+  color: #DC2626;
+}
+
+/* Inputs, Selects & Textareas */
+.form-control {
+  width: 100%;
+  padding: 0.65rem 0.95rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  color: var(--text-heading);
+  background-color: #FFFFFF;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: var(--sidebar-active);
+  box-shadow: 0 0 0 2px rgba(11, 77, 156, 0.12);
+}
+
+.form-control::placeholder {
+  color: var(--text-light);
+}
+
+.form-select {
+  cursor: pointer;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+/* Estados de Error y Validación Elegante */
+.form-group.has-error .form-label {
+  color: #DC2626;
+}
+
+.form-group.has-error .form-control {
+  border-color: #EF4444;
+  background-color: #FEF2F2;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+}
+
+.form-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.775rem;
+  font-weight: 500;
+  color: #DC2626;
+  margin-top: 0.35rem;
+  animation: errorFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.form-error-msg::before {
+  content: '•';
+  font-size: 1.1rem;
+  line-height: 1;
+  color: #DC2626;
+}
+
+@keyframes errorFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Toast de Alerta Corporativa */
+.corporate-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--sidebar-bg);
+  color: #FFFFFF;
+  padding: 1rem 1.4rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 25px -5px rgba(0, 28, 61, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  z-index: 1000;
+  animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 4px solid var(--emerald-green);
+}
+
+.corporate-toast--error {
+  border-left-color: #EF4444;
+}
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Botones Finales del Formulario */
+.form-bottom-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.btn-save-large {
+  padding: 0.85rem 1.75rem;
+  font-size: 0.9375rem;
+}
+
+.btn-check-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   7. MEDIA QUERIES RESPONSIVAS
+─────────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .form-layout-container {
+    grid-template-columns: 1fr;
+  }
+
+  .form-sections-sidebar {
+    position: static;
+  }
+
+  .form-sections-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 900px) {
+  .app-sidebar {
+    width: 72px;
+    padding-inline: 0.5rem;
+  }
+
+  .sidebar-brand {
+    padding-inline: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-link span {
+    display: none;
+  }
+
+  .nav-link {
+    justify-content: center;
+    padding: 0.75rem;
+  }
+
+  .form-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .form-view-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .form-bottom-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .form-bottom-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
