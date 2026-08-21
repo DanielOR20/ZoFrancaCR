@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -10,16 +10,26 @@
 </head>
 <body class="app-page dashboard-page bg-slate-50 flex min-h-screen text-slate-800">
 
+  <!-- Esqueleto de carga de sesión -->
+  <div id="bootSkeleton" class="boot-skeleton">
+    <div class="boot-skeleton__card">
+      <span class="boot-skeleton__spinner"></span>
+      <p>Verificando tu sesi&oacute;n&#8230;</p>
+    </div>
+  </div>
+
   <!-- Sidebar -->
   <aside class="app-sidebar w-64 bg-[#051E3C] text-slate-300 flex flex-col justify-between p-4 flex-shrink-0">
     <div>
-      <div class="flex items-center gap-2 px-2 py-4 mb-4">
-        <div class="w-6 h-6 bg-white rounded-sm flex items-center justify-center font-bold text-[#051E3C] text-xs">ZF</div>
-        <span class="text-white font-bold text-lg tracking-wide">ZoFranca</span>
+      <div class="app-brand flex items-center gap-3 px-2 py-4 mb-4">
+        <div class="app-brand__mark" aria-hidden="true">
+          <span class="app-brand__mark-core">ZF</span>
+          <span class="app-brand__mark-orbit"></span>
+        </div>
+        <span class="app-brand__name"><strong>ZO</strong><em>FRANCA</em><small>COSTA RICA</small></span>
       </div>
-
       <nav class="space-y-1">
-        <a href="../dashboard/index.html" class="flex items-center gap-3 px-3 py-2.5 bg-sky-600 text-white rounded-lg text-xs font-medium">
+        <a href="../dashboard/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 bg-sky-600 text-white rounded-lg text-xs font-medium">
           <i data-lucide="layout-grid" class="w-4 h-4"></i> Dashboard
         </a>
         <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
@@ -28,110 +38,70 @@
         <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
           <i data-lucide="users-2" class="w-4 h-4"></i> Empleados
         </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="file-text" class="w-4 h-4"></i> Documentos
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="clipboard-list" class="w-4 h-4"></i> Solicitudes
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Reportes
-        </a>
-        <a href="../usuarios/index.html" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
+        <a id="navUsers" href="../usuarios/usuarios.html" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
           <i data-lucide="user-cog" class="w-4 h-4"></i> Usuarios
         </a>
         <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="settings" class="w-4 h-4"></i> Configuración
+          <i data-lucide="settings" class="w-4 h-4"></i> Configuraci&oacute;n
         </a>
       </nav>
     </div>
   </aside>
 
-  <!-- Contenido Principal -->
-  <main class="flex-1 flex flex-col">
-    <!-- Header -->
+  <!-- Contenido principal -->
+  <main id="appContent" class="flex-1 flex flex-col min-w-0">
     <header class="app-header h-16 bg-white border-b flex items-center justify-between px-8">
-      <div class="relative w-80">
+      <div class="relative w-80 max-w-full">
         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
         <input type="text" placeholder="Buscar..." class="w-full pl-9 pr-3 py-1.5 bg-slate-100 rounded-lg text-xs outline-none">
       </div>
-
       <div class="flex items-center gap-3">
         <div class="text-right">
-          <p class="text-xs font-bold text-slate-800">Admin Usuario</p>
-          <p class="text-[10px] text-slate-400">Administrador General</p>
+          <p id="headerUserName" class="text-xs font-bold text-slate-800">Cargando&#8230;</p>
+          <p id="headerUserRole" class="text-[10px] text-slate-400"></p>
         </div>
         <div class="w-8 h-8 bg-[#051E3C] text-white rounded-lg flex items-center justify-center">
           <i data-lucide="user" class="w-4 h-4"></i>
         </div>
-        <a href="../login/index.html" class="text-rose-500 hover:bg-rose-50 p-2 rounded-lg">
+        <a id="logoutBtn" href="../login/login.html" class="text-rose-500 hover:bg-rose-50 p-2 rounded-lg">
           <i data-lucide="log-out" class="w-4 h-4"></i>
         </a>
       </div>
     </header>
 
-    <!-- Contenido Dashboard -->
-    <div class="app-content p-8 space-y-6 overflow-y-auto">
-      <div class="flex items-center justify-between">
-        <div>
-          <h1 class="text-2xl font-bold text-slate-900">Bienvenido, Admin Usuario</h1>
-          <p class="text-xs text-slate-500 mt-1">Resumen general de operaciones y estado del ecosistema de Zonas Francas.</p>
-        </div>
-        <div class="flex gap-2">
-          <button class="app-button app-button--secondary px-3 py-1.5 border border-slate-200 text-sky-700 rounded-lg text-xs font-semibold flex items-center gap-2 hover:bg-slate-50">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar Reporte
-          </button>
-          <button class="app-button app-button--primary px-3 py-1.5 bg-[#051E3C] text-white rounded-lg text-xs font-semibold flex items-center gap-2 hover:bg-slate-800">
-            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Nueva Empresa
-          </button>
-        </div>
+    <div class="app-content p-8 space-y-6 flex-1">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-800">Panel principal</h1>
+        <p class="text-sm text-slate-500 mt-1">Bienvenido al sistema de la Zona Franca.</p>
       </div>
 
-      <!-- Tarjetas KPi -->
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <div class="bg-slate-100/70 p-4 rounded-xl border border-slate-200">
-          <div class="metric-label flex items-center gap-2 text-[10px] font-bold uppercase text-slate-500">
-            <span class="metric-icon metric-icon--blue"><i data-lucide="building-2" class="w-3.5 h-3.5"></i></span> Total Empresas
+          <div class="metric-label flex items-center gap-2 text-[10px] font-bold uppercase text-blue-700">
+            <span class="metric-icon metric-icon--blue"><i data-lucide="building-2" class="w-3.5 h-3.5"></i></span> Empresas
           </div>
-          <div class="flex items-baseline justify-between mt-2">
-            <span class="text-2xl font-bold">52</span>
-            <span class="text-[10px] text-emerald-600 font-semibold">📈 +3%</span>
-          </div>
+          <span class="text-2xl font-bold text-slate-800 mt-2 block">2,640</span>
         </div>
-
-        <div class="bg-slate-100/70 p-4 rounded-xl border border-slate-200">
-          <div class="metric-label flex items-center gap-2 text-[10px] font-bold uppercase text-slate-500">
-            <span class="metric-icon metric-icon--emerald"><i data-lucide="circle-check" class="w-3.5 h-3.5"></i></span> Activas
+        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
+          <div class="metric-label flex items-center gap-2 text-[10px] font-bold uppercase text-emerald-700">
+            <span class="metric-icon metric-icon--emerald"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i></span> Aprobadas
           </div>
-          <div class="flex items-baseline gap-1 mt-2">
-            <span class="text-2xl font-bold">48</span>
-            <span class="text-xs text-slate-400">/ 52</span>
-          </div>
+          <span class="text-2xl font-bold text-slate-800 mt-2 block">1,918</span>
         </div>
-
-        <div class="bg-red-50/50 p-4 rounded-xl border border-red-100">
-          <div class="metric-label flex items-center gap-2 text-[10px] font-bold uppercase text-red-700">
-            <span class="metric-icon metric-icon--amber"><i data-lucide="clock-3" class="w-3.5 h-3.5"></i></span> Sol. Pendientes
+        <div class="bg-amber-50 p-4 rounded-xl border border-amber-100">
+          <div class="metric-label flex items-center gap-2 text-[10px] font-bold uppercase text-amber-700">
+            <span class="metric-icon metric-icon--amber"><i data-lucide="clock-3" class="w-3.5 h-3.5"></i></span> Pendientes
           </div>
           <span class="text-2xl font-bold text-slate-800 mt-2 block">12</span>
         </div>
-
         <div class="bg-slate-100/70 p-4 rounded-xl border border-slate-200">
-          <div class="metric-label flex items-center gap-2 text-[10px] font-bold uppercase text-slate-500">
-            <span class="metric-icon metric-icon--violet"><i data-lucide="folder" class="w-3.5 h-3.5"></i></span> Doc. Pendientes
-          </div>
-          <span class="text-2xl font-bold mt-2 block">5</span>
-        </div>
-
-        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
-          <div class="metric-label flex items-center gap-2 text-[10px] font-bold uppercase text-emerald-700">
-            <span class="metric-icon metric-icon--cyan"><i data-lucide="users" class="w-3.5 h-3.5"></i></span> Empleados
+          <div class="metric-label flex items-center gap-2 text-[10px] font-bold uppercase text-violet-700">
+            <span class="metric-icon metric-icon--violet"><i data-lucide="users" class="w-3.5 h-3.5"></i></span> Empleados
           </div>
           <span class="text-2xl font-bold text-slate-800 mt-2 block">8,420</span>
         </div>
       </div>
 
-      <!-- Tabla de Actividad -->
       <div class="app-panel bg-slate-100/50 rounded-xl p-4 border">
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-sm font-bold">Actividad Reciente</h3>
@@ -141,34 +111,27 @@
           <table class="w-full text-left text-xs">
             <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] border-b">
               <tr>
-                <th class="p-3">Empresa / Entidad</th>
-                <th class="p-3">Acción</th>
+                <th class="p-3">Entidad</th>
+                <th class="p-3">Acci&oacute;n</th>
                 <th class="p-3">Usuario</th>
-                <th class="p-3">Fecha y Hora</th>
+                <th class="p-3">Fecha</th>
                 <th class="p-3">Estado</th>
               </tr>
             </thead>
             <tbody class="divide-y text-slate-600">
               <tr>
                 <td class="p-3 font-semibold text-slate-800">Tech Solutions CR S.A.</td>
-                <td class="p-3">Aprobación de Solicitud de Exención</td>
+                <td class="p-3">Aprobaci&oacute;n de solicitud</td>
                 <td class="p-3">Admin Principal</td>
                 <td class="p-3">Hoy, 10:45 AM</td>
                 <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[10px]">Completado</span></td>
               </tr>
               <tr>
                 <td class="p-3 font-semibold text-slate-800">Global Logistics Ltda.</td>
-                <td class="p-3">Actualización de Planilla Mensual</td>
+                <td class="p-3">Actualizaci&oacute;n de planilla</td>
                 <td class="p-3">HR Global</td>
                 <td class="p-3">Ayer, 04:20 PM</td>
-                <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded-full text-[10px]">En Revisión</span></td>
-              </tr>
-              <tr>
-                <td class="p-3 font-semibold text-slate-800">AgroExport del Norte S.A.</td>
-                <td class="p-3">Rechazo de Permiso de Operación</td>
-                <td class="p-3">Admin Secundario</td>
-                <td class="p-3">12 Oct, 09:30 AM</td>
-                <td class="p-3"><span class="bg-rose-100 text-rose-800 px-2 py-0.5 rounded-full text-[10px]">Rechazado</span></td>
+                <td class="p-3"><span class="bg-sky-100 text-sky-800 px-2 py-0.5 rounded-full text-[10px]">En revisi&oacute;n</span></td>
               </tr>
             </tbody>
           </table>
@@ -177,6 +140,6 @@
     </div>
   </main>
 
-  <script src="dashboard.js"></script>
+  <script type="module" src="./dashboard.js"></script>
 </body>
 </html>

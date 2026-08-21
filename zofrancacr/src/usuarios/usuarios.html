@@ -1,184 +1,97 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZoFrancaCR - Gestión de Usuarios</title>
+  <title>ZoFrancaCR - Gesti&oacute;n de Usuarios</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="usuarios.css">
 </head>
 <body class="app-page users-page bg-slate-50 flex min-h-screen text-slate-800">
 
+  <div id="bootSkeleton" class="boot-skeleton">
+    <div class="boot-skeleton__card">
+      <span class="boot-skeleton__spinner"></span>
+      <p>Verificando acceso&#8230;</p>
+    </div>
+  </div>
+
   <!-- Sidebar -->
   <aside class="app-sidebar w-64 bg-[#051E3C] text-slate-300 flex flex-col justify-between p-4 flex-shrink-0">
     <div>
-      <div class="flex items-center gap-2 px-2 py-4 mb-4">
-        <div class="w-6 h-6 bg-white rounded-sm flex items-center justify-center font-bold text-[#051E3C] text-xs">ZF</div>
-        <span class="text-white font-bold text-lg tracking-wide">ZoFranca</span>
+      <div class="app-brand flex items-center gap-3 px-2 py-4 mb-4">
+        <div class="app-brand__mark" aria-hidden="true">
+          <span class="app-brand__mark-core">ZF</span>
+          <span class="app-brand__mark-orbit"></span>
+        </div>
+        <span class="app-brand__name"><strong>ZO</strong><em>FRANCA</em><small>COSTA RICA</small></span>
       </div>
-
       <nav class="space-y-1">
-        <a href="../dashboard/index.html" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
+        <a href="../dashboard/dashboard.html" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
           <i data-lucide="layout-grid" class="w-4 h-4"></i> Dashboard
         </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="building-2" class="w-4 h-4"></i> Empresas
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="users-2" class="w-4 h-4"></i> Empleados
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="file-text" class="w-4 h-4"></i> Documentos
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="clipboard-list" class="w-4 h-4"></i> Solicitudes
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Reportes
-        </a>
-        <a href="../usuarios/index.html" class="flex items-center gap-3 px-3 py-2.5 bg-sky-600 text-white rounded-lg text-xs font-medium">
+        <a href="../usuarios/usuarios.html" class="flex items-center gap-3 px-3 py-2.5 bg-sky-600 text-white rounded-lg text-xs font-medium">
           <i data-lucide="user-cog" class="w-4 h-4"></i> Usuarios
         </a>
         <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-800 rounded-lg text-xs font-medium">
-          <i data-lucide="settings" class="w-4 h-4"></i> Configuración
+          <i data-lucide="settings" class="w-4 h-4"></i> Configuraci&oacute;n
         </a>
       </nav>
     </div>
   </aside>
 
   <!-- Contenido principal -->
-  <main class="flex-1 flex flex-col">
+  <main id="appContent" class="flex-1 flex flex-col min-w-0">
     <header class="app-header h-16 bg-white border-b flex items-center justify-between px-8">
-      <div class="relative w-80">
+      <div class="relative w-80 max-w-full">
         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
         <input type="text" placeholder="Buscar..." class="w-full pl-9 pr-3 py-1.5 bg-slate-100 rounded-lg text-xs outline-none">
       </div>
-
       <div class="flex items-center gap-3">
         <div class="text-right">
-          <p class="text-xs font-bold text-slate-800">Admin Usuario</p>
-          <p class="text-[10px] text-slate-400">Administrador General</p>
+          <p id="headerUserName" class="text-xs font-bold text-slate-800">Cargando&#8230;</p>
+          <p id="headerUserRole" class="text-[10px] text-slate-400"></p>
         </div>
         <div class="w-8 h-8 bg-[#051E3C] text-white rounded-lg flex items-center justify-center">
           <i data-lucide="user" class="w-4 h-4"></i>
         </div>
-        <a href="../login/index.html" class="text-rose-500 hover:bg-rose-50 p-2 rounded-lg">
+        <a id="logoutBtn" href="../login/login.html" class="text-rose-500 hover:bg-rose-50 p-2 rounded-lg">
           <i data-lucide="log-out" class="w-4 h-4"></i>
         </a>
       </div>
     </header>
 
-    <div class="app-content p-8 space-y-6">
-      <div>
-        <span class="text-[10px] font-bold tracking-wider text-sky-800 uppercase flex items-center gap-1">
-          <i data-lucide="shield" class="w-3 h-3"></i> Gestión de Acceso
-        </span>
-        <div class="flex items-center justify-between mt-1">
-          <h1 class="text-2xl font-bold text-slate-900">Usuarios del Sistema</h1>
-          <button class="app-button app-button--primary px-4 py-2 bg-[#051E3C] text-white rounded-lg text-xs font-semibold flex items-center gap-2 hover:bg-slate-800">
-            <i data-lucide="user-plus" class="w-4 h-4"></i> Crear Usuario
+    <div class="app-content p-8 space-y-6 flex-1">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-800">Gesti&oacute;n de Usuarios</h1>
+          <p class="text-sm text-slate-500 mt-1">Administra los registros y aprueba o rechaza las cuentas pendientes.</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <button id="refreshBtn" class="app-button app-button--secondary px-3 py-1.5 border rounded-lg flex items-center gap-1.5 text-slate-600 hover:bg-slate-50">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Actualizar
           </button>
         </div>
-        <p class="text-xs text-slate-500 max-w-2xl mt-1">
-          Administre los permisos y el acceso de los usuarios a la plataforma ZoFranca. Asigne roles específicos para controlar la visibilidad y acciones disponibles.
-        </p>
       </div>
 
-      <!-- Tarjetas de Métricas -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="bg-slate-100/70 p-4 rounded-xl border">
-          <div class="metric-label flex items-center gap-2 text-xs font-semibold text-slate-500"><span class="metric-icon metric-icon--blue"><i data-lucide="users" class="w-3.5 h-3.5"></i></span> Total Usuarios</div>
-          <div class="flex items-baseline gap-2 mt-1">
-            <span class="text-2xl font-bold">124</span>
-            <span class="text-[10px] text-emerald-600 font-semibold">↑ 12%</span>
-          </div>
-        </div>
-
-        <div class="bg-slate-100/70 p-4 rounded-xl border">
-          <div class="metric-label flex items-center gap-2 text-xs font-semibold text-slate-500"><span class="metric-icon metric-icon--violet"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i></span> Administradores</div>
-          <span class="text-2xl font-bold mt-1 block">8</span>
-        </div>
-
-        <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-100">
-          <div class="metric-label flex items-center gap-2 text-xs font-semibold text-emerald-800"><span class="metric-icon metric-icon--emerald"><i data-lucide="user-check" class="w-3.5 h-3.5"></i></span> Usuarios Activos</div>
-          <span class="text-2xl font-bold text-slate-800 mt-1 block">118</span>
-        </div>
-
-        <div class="bg-rose-50/60 p-4 rounded-xl border border-rose-100">
-          <div class="metric-label flex items-center gap-2 text-xs font-semibold text-rose-800"><span class="metric-icon metric-icon--rose"><i data-lucide="user-x" class="w-3.5 h-3.5"></i></span> Usuarios Inactivos</div>
-          <span class="text-2xl font-bold text-slate-800 mt-1 block">6</span>
-        </div>
-      </div>
-
-      <!-- Tabla Con Filtros -->
-      <div class="app-panel app-table bg-white rounded-xl border shadow-sm overflow-hidden">
-        <div class="p-4 border-b flex items-center justify-between">
-          <div class="relative w-72">
-            <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5"></i>
-            <input type="text" placeholder="Buscar por nombre o correo..." class="w-full pl-8 pr-3 py-1.5 bg-slate-100 rounded-lg text-xs outline-none">
-          </div>
-          <div class="flex items-center gap-2 text-xs">
-            <button class="app-button app-button--secondary px-3 py-1.5 border rounded-lg flex items-center gap-1.5 text-slate-600 hover:bg-slate-50">
-              <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i> Filtros
-            </button>
-            <button class="app-button app-button--secondary px-3 py-1.5 border rounded-lg flex items-center gap-1.5 text-slate-600 hover:bg-slate-50">
-              <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar
-            </button>
-          </div>
-        </div>
-
+      <div class="app-panel bg-white rounded-xl border overflow-hidden">
         <table class="w-full text-left text-xs">
           <thead class="bg-slate-50 text-slate-500 border-b">
             <tr>
               <th class="p-3">Nombre</th>
-              <th class="p-3">Correo Electrónico</th>
+              <th class="p-3">Correo Electr&oacute;nico</th>
               <th class="p-3">Rol</th>
               <th class="p-3">Estado</th>
-              <th class="p-3">Último Acceso</th>
-              <th class="p-3 text-right">Acciones</th>
+              <th class="p-3">Acciones</th>
             </tr>
           </thead>
-          <tbody class="divide-y text-slate-600">
-            <tr>
-              <td class="p-3 font-semibold flex items-center gap-2">
-                <div class="w-7 h-7 bg-slate-800 text-white rounded-full flex items-center justify-center text-[10px]">CM</div>
-                Carlos Méndez
-              </td>
-              <td class="p-3">carlos.mendez@ejemplo.com</td>
-              <td class="p-3"><span class="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded font-medium text-[10px]">Administrador</span></td>
-              <td class="p-3"><span class="text-emerald-600 font-semibold text-[10px]">● Activo</span></td>
-              <td class="p-3 text-[10px]">Hoy, 09:24 AM</td>
-              <td class="p-3 text-right"><i data-lucide="more-horizontal" class="w-4 h-4 text-slate-400 cursor-pointer inline"></i></td>
-            </tr>
-            <tr>
-              <td class="p-3 font-semibold flex items-center gap-2">
-                <div class="w-7 h-7 bg-sky-500 text-white rounded-full flex items-center justify-center text-[10px]">LV</div>
-                Laura Vargas
-              </td>
-              <td class="p-3">lvargas@logistica-cr.com</td>
-              <td class="p-3"><span class="bg-sky-50 text-sky-700 px-2 py-0.5 rounded font-medium text-[10px]">Empresa</span></td>
-              <td class="p-3"><span class="text-emerald-600 font-semibold text-[10px]">● Activo</span></td>
-              <td class="p-3 text-[10px]">Ayer, 16:45 PM</td>
-              <td class="p-3 text-right"><i data-lucide="more-horizontal" class="w-4 h-4 text-slate-400 cursor-pointer inline"></i></td>
-            </tr>
-            <tr>
-              <td class="p-3 font-semibold flex items-center gap-2">
-                <div class="w-7 h-7 bg-emerald-700 text-white rounded-full flex items-center justify-center text-[10px]">RS</div>
-                Roberto Salas
-              </td>
-              <td class="p-3">rsalas@ministerio.go.cr</td>
-              <td class="p-3"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-medium text-[10px]">Consulta</span></td>
-              <td class="p-3"><span class="text-rose-600 font-semibold text-[10px]">● Inactivo</span></td>
-              <td class="p-3 text-[10px]">12 Oct 2023</td>
-              <td class="p-3 text-right"><i data-lucide="more-horizontal" class="w-4 h-4 text-slate-400 cursor-pointer inline"></i></td>
-            </tr>
-          </tbody>
+          <tbody id="usersBody" class="divide-y text-slate-600"></tbody>
         </table>
       </div>
     </div>
   </main>
 
-  <script src="usuarios.js"></script>
+  <script type="module" src="./usuarios.js"></script>
 </body>
 </html>
