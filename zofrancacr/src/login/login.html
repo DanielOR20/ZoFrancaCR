@@ -31,7 +31,7 @@
             </svg>
             <span class="auth-brand__name"><strong>ZO</strong><em>FRANCA</em><small>COSTA RICA</small></span>
           </div>
-          <p class="auth-brand__tag">Ohana significa familia. Accede a tu cuenta para gestionar todo de forma limpia, segura y sin parpadeos.</p>
+          <p class="auth-brand__tag">Accede a la plataforma de la Zona Franca de Costa Rica. Deja que tu negocio cruce fronteras.</p>
         </div>
       </aside>
 
@@ -87,6 +87,14 @@
           </div>
           <p class="auth-alert" id="registerAlert" role="status" aria-live="polite"></p>
           <form class="auth-form" id="registerForm" novalidate>
+            <label class="field">
+              <span class="field__label">Rol</span>
+              <select name="role" id="registerRoleSelect">
+                <option value="user">Usuario</option>
+                <option value="empresa">Empresa</option>
+                <option value="colaborador">Colaborador</option>
+              </select>
+            </label>
             <label class="field">
               <span class="field__label">Nombre completo</span>
               <input type="text" name="name" placeholder="Tu nombre completo" autocomplete="name" required>

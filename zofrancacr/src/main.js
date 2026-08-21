@@ -37,7 +37,7 @@ if (app) {
               </svg>
               <span class="auth-brand__name"><strong>ZO</strong><em>FRANCA</em><small>COSTA RICA</small></span>
             </div>
-            <p class="auth-brand__tag">Ohana significa familia. Accede a tu cuenta para gestionar todo de forma limpia, segura y sin parpadeos.</p>
+            <p class="auth-brand__tag">Accede a la plataforma de la Zona Franca de Costa Rica. Deja que tu negocio cruce fronteras.</p>
           </div>
         </aside>
 
