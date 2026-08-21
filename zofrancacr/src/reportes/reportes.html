@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZoFranca - Reportes Analíticos</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="reportes.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h2>ZoFranca</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item"><span class="material-icons">dashboard</span> Dashboard</a>
+                <a href="#" class="nav-item"><span class="material-icons">business</span> Empresas</a>
+                <a href="#" class="nav-item"><span class="material-icons">people</span> Empleados</a>
+                <a href="#" class="nav-item"><span class="material-icons">description</span> Documentos</a>
+                <a href="#" class="nav-item"><span class="material-icons">assignment</span> Solicitudes</a>
+                <a href="#" class="nav-item active"><span class="material-icons">bar_chart</span> Reportes</a>
+                <a href="#" class="nav-item"><span class="material-icons">group</span> Usuarios</a>
+                <a href="#" class="nav-item"><span class="material-icons">settings</span> Configuración</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header superior -->
+            <header class="top-header">
+                <div class="search-bar-top">
+                    <span class="material-icons">search</span>
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div class="user-profile">
+                    <span class="user-name">Admin Usuario</span>
+                    <span class="user-role">Administrador General</span>
+                </div>
+            </header>
+
+            <!-- Contenido de Reportes -->
+            <section class="content-body">
+                <div class="header-section">
+                    <div>
+                        <h1>Reportes Analíticos</h1>
+                        <p>Visión general del rendimiento y métricas clave de las empresas en Zona Franca.</p>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-secondary">
+                            <span class="material-icons">download</span> Exportar Excel
+                        </button>
+                        <button class="btn-primary">
+                            <span class="material-icons">picture_as_pdf</span> Generar PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros de Cabecera de Reportes -->
+                <div class="filters-bar">
+                    <div class="filter-box">
+                        <span class="filter-title">RANGO DE FECHAS</span>
+                        <div class="filter-select">
+                            <span class="material-icons">date_range</span> Útimos 30 días
+                        </div>
+                    </div>
+                    <div class="filter-box">
+                        <span class="filter-title">EMPRESA</span>
+                        <div class="filter-select">
+                            <span class="material-icons">apartment</span> Todas las Empresas
+                        </div>
+                    </div>
+                    <div class="filter-box">
+                        <span class="filter-title">CATEGORÍA INDUSTRIAL</span>
+                        <div class="filter-select">
+                            <span class="material-icons">category</span> Todas las Categorías
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjetas de Métricas de Reportes -->
+                <div class="metrics-grid-reports">
+                    <div class="metric-card">
+                        <div class="metric-info-full">
+                            <span class="metric-category">TIEMPO DE RESOLUCIÓN MEDIO</span>
+                            <div class="metric-main-row">
+                                <span class="metric-number">4.2 <small>días</small></span>
+                                <span class="metric-icon-badge blue"><span class="material-icons">schedule</span></span>
+                            </div>
+                            <span class="metric-trend down">↓ 12% vs. mes anterior</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card dark-card">
+                        <div class="metric-info-full">
+                            <span class="metric-category light">TASA DE ROTACIÓN (EMPLEADOS)</span>
+                            <div class="metric-main-row">
+                                <span class="metric-number light">2.8%</span>
+                                <span class="metric-icon-badge dark"><span class="material-icons">group</span></span>
+                            </div>
+                            <span class="metric-trend up">↑ 0.3% vs. trimestre anterior</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-info-full">
+                            <span class="metric-category">CRECIMIENTO INVERSIÓN YTD</span>
+                            <div class="metric-main-row">
+                                <span class="metric-number">$ 142 <small>M</small></span>
+                                <span class="metric-icon-badge blue"><span class="material-icons">trending_up</span></span>
+                            </div>
+                            <span class="metric-trend up">↑ 18% vs. YTD anterior</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos y Secciones Inferiores -->
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Tendencia de Solicitudes</h3>
+                            <span class="material-icons">more_vert</span>
+                        </div>
+                        <div class="chart-placeholder-graph">
+                            <!-- Simulación visual de gráfica de área -->
+                            <div class="wave-simulated"></div>
+                        </div>
+                        <div class="chart-labels">
+                            <span>Ene</span><span>Feb</span><span>Mar</span><span>Abr</span><span>May</span><span>Jun</span>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Distribución por Sector</h3>
+                            <span class="material-icons">more_vert</span>
+                        </div>
+                        <div class="chart-center-content">
+                            <span class="big-counter">42</span>
+                            <span class="counter-label">Empresas</span>
+                        </div>
+                        <div class="chart-legend">
+                            <span class="legend-item"><span class="dot services"></span> Servicios (50%)</span>
+                            <span class="legend-item"><span class="dot manufactura"></span> Manufactura (30%)</span>
+                            <span class="legend-item"><span class="dot salud"></span> Salud (20%)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="reportes.js"></script>
+</body>
+</html>

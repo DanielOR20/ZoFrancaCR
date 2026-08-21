@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Management - ZoFranca</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="documents.css">
+</head>
+<body class="zofranca-body">
+
+    <!-- Barra Lateral (Sidebar) -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <h2>ZoFranca</h2>
+        </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item">Dashboard</a>
+            <a href="#" class="nav-item">Empresas</a>
+            <a href="#" class="nav-item">Empleados</a>
+            <a href="#" class="nav-item active">Documentos</a>
+            <a href="#" class="nav-item">Solicitudes</a>
+            <a href="#" class="nav-item">Reportes</a>
+            <a href="#" class="nav-item">Usuarios</a>
+            <a href="#" class="nav-item">Configuración</a>
+        </nav>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        
+        <!-- Cabecera Superior -->
+        <header class="top-header">
+            <div class="search-top">
+                <input type="text" placeholder="Buscar...">
+            </div>
+            <div class="user-area">
+                <div class="user-info-text">
+                    <span class="user-name">Admin Usuario</span>
+                    <span class="user-role">Administrador General</span>
+                </div>
+                <div class="avatar-circle">A</div>
+            </div>
+        </header>
+
+        <!-- Título y Botón Principal -->
+        <section class="content-header">
+            <div class="title-area">
+                <h1>Document Management</h1>
+                <p>Central repository for all documents submitted by free trade zone companies. Review, approve, and audit documentation here.</p>
+            </div>
+            <div class="header-filters-top">
+                <select class="filter-dropdown">
+                    <option>All Companies</option>
+                </select>
+                <select class="filter-dropdown">
+                    <option>All Statuses</option>
+                </select>
+                <button id="btnBulkUpload" class="btn-bulk-upload">📥 Bulk Upload</button>
+            </div>
+        </section>
+
+        <!-- Tabla de Documentos -->
+        <section class="table-container">
+            <table class="documents-data-table">
+                <thead>
+                    <tr>
+                        <th>Documento</th>
+                        <th>Empresa</th>
+                        <th>Tipo</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="documentsTableBody">
+                    <tr>
+                        <td>
+                            <div class="doc-cell">
+                                <span class="file-icon pdf">📄</span>
+                                <div class="doc-info">
+                                    <span class="doc-title">Annual_Report_2023_Final_V2.pdf</span>
+                                    <span class="doc-size">2.4 MB • PDF</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>TechCorp Solutions</td>
+                        <td>Annual Report</td>
+                        <td>Oct 24, 2023</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Ver">👁️</button>
+                                <button class="btn-icon" title="Descargar">⬇️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="doc-cell">
+                                <span class="file-icon excel">📊</span>
+                                <div class="doc-info">
+                                    <span class="doc-title">Q3_Tax_Exemption_Declaration.xlsx</span>
+                                    <span class="doc-size">1.1 MB • Excel</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Global Logistics SA</td>
+                        <td>Tax Declaration</td>
+                        <td>Oct 22, 2023</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Ver">👁️</button>
+                                <button class="btn-icon" title="Descargar">⬇️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="doc-cell">
+                                <span class="file-icon word">📝</span>
+                                <div class="doc-info">
+                                    <span class="doc-title">Environmental_Impact_Study_2023.docx</span>
+                                    <span class="doc-size">8.5 MB • Word</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>MediManuf CR</td>
+                        <td>Compliance</td>
+                        <td>Oct 18, 2023</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Ver">👁️</button>
+                                <button class="btn-icon" title="Descargar">⬇️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="doc-cell">
+                                <span class="file-icon alert">⚠️</span>
+                                <div class="doc-info">
+                                    <span class="doc-title">Customs_Clearance_Form_Incomplete.pdf</span>
+                                    <span class="doc-size">0.8 MB • PDF</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>TechCorp Solutions</td>
+                        <td>Customs</td>
+                        <td>Oct 15, 2023</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Ver">👁️</button>
+                                <button class="btn-icon" title="Descargar">⬇️</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Paginación -->
+        <footer class="table-footer">
+            <div class="showing-entries">Showing 1 to 4 of 48 entries</div>
+            <div class="pagination">
+                <button class="page-nav">&lt;</button>
+                <button class="page-num active">1</button>
+                <button class="page-num">2</button>
+                <button class="page-num">3</button>
+                <button class="page-nav">&gt;</button>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="documents.js"></script>
+</body>
+</html>

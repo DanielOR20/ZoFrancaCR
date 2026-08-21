@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empleados - ZoFranca</title>
+    <!-- Usaremos una fuente profesional similar a la de la imagen -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="empleados.css">
+</head>
+<body class="zofranca-body">
+
+    <!-- Barra Lateral (Sidebar) -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <h2>ZoFranca</h2>
+        </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item"><i class="icon-dashboard"></i> Dashboard</a>
+            <a href="#" class="nav-item"><i class="icon-empresas"></i> Empresas</a>
+            <a href="#" class="nav-item active"><i class="icon-empleados"></i> Empleados</a>
+            <a href="#" class="nav-item"><i class="icon-documentos"></i> Documentos</a>
+            <a href="#" class="nav-item"><i class="icon-solicitudes"></i> Solicitudes</a>
+            <a href="#" class="nav-item"><i class="icon-reportes"></i> Reportes</a>
+            <a href="#" class="nav-item"><i class="icon-usuarios"></i> Usuarios</a>
+            <a href="#" class="nav-item"><i class="icon-configuracion"></i> Configuración</a>
+        </nav>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        
+        <!-- Cabecera de Usuario -->
+        <header class="top-header">
+            <div class="search-top">
+                <input type="text" placeholder="Buscar...">
+            </div>
+            <div class="user-area">
+                <span class="user-name">Admin Usuario</span>
+                <span class="user-role">Administrador General</span>
+                <div class="avatar-circle">A</div>
+            </div>
+        </header>
+
+        <!-- Título y Botón Principal -->
+        <section class="content-header">
+            <div class="title-area">
+                <h1>Gestión de Empleados</h1>
+                <p>Directorio general del personal activo e inactivio... (texto descriptivo)</p>
+            </div>
+            <button id="btnAgregarEmpleado" class="btn-agregar">+ Agregar Empleado</button>
+        </section>
+
+        <!-- Tarjetas de Resumen (KPIs) -->
+        <section class="kpi-cards">
+            <div class="card">
+                <h3>TOTAL EMPLEADOS</h3>
+                <div class="kpi-number">1,248</div>
+                <p class="kpi-trend positive">+12 este mes</p>
+            </div>
+            <div class="card">
+                <h3>EMPRESAS ACTIVAS</h3>
+                <div class="kpi-number">42</div>
+                <p class="kpi-trend">Distribuidos en 8 sectores</p>
+            </div>
+            <div class="card dark-card">
+                <h3>ESTADO GENERAL</h3>
+                <div class="kpi-number large-text">98% Activos</div>
+                <p>Tasa de retención anual estable</p>
+                <div class="donut-chart"></div> <!-- Simulación visual de la dona -->
+            </div>
+        </section>
+
+        <!-- Barra de Filtros -->
+        <section class="filters-bar">
+            <div class="search-field">
+                <input type="text" placeholder="Buscar por nombre o identificación...">
+            </div>
+            <div class="filter-dropdowns">
+                <select class="filter-select">
+                    <option>Todas las Empresas</option>
+                </select>
+                <select class="filter-select">
+                    <option>Todos los Deptos</option>
+                </select>
+                <button class="btn-filter-icon"></button>
+            </div>
+        </section>
+
+        <!-- Tabla de Empleados -->
+        <section class="table-container">
+            <table class="empleados-data-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Identificación</th>
+                        <th>Empresa</th>
+                        <th>Puesto</th>
+                        <th>Departamento</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="empleadosTableBody">
+                    <!-- Fila 1 -->
+                    <tr>
+                        <td class="user-cell">
+                            <div class="avatar-circle small-avatar blue-bg">CM</div>
+                            <div class="user-info">
+                                <span class="user-name-table">Carlos Mora Salas</span>
+                                <span class="user-email">cmora@techcorp.cr</span>
+                            </div>
+                        </td>
+                        <td>1-1234-5678</td>
+                        <td>TechCorp Costa Rica</td>
+                        <td>Ingeniero de Software Senior</td>
+                        <td>Tecnología</td>
+                        <td><span class="status-label active-dot">Activo</span></td>
+                    </tr>
+                     <!-- Fila 2 -->
+                    <tr>
+                        <td class="user-cell">
+                            <div class="avatar-circle small-avatar blue-bg">AR</div>
+                            <div class="user-info">
+                                <span class="user-name-table">Ana Rojas Vargas</span>
+                                <span class="user-email">arojas@globallogistics.com</span>
+                            </div>
+                        </td>
+                        <td>2-9876-5432</td>
+                        <td>Global Logistics SA</td>
+                        <td>Gerente de Operaciones</td>
+                        <td>Operaciones</td>
+                        <td><span class="status-label active-dot">Activo</span></td>
+                    </tr>
+                     <!-- Fila 3 -->
+                    <tr>
+                        <td class="user-cell">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Elena" class="avatar-img small-avatar">
+                            <div class="user-info">
+                                <span class="user-name-table">Elena Jiménez Castro</span>
+                                <span class="user-email">ejimenez@biomed.cr</span>
+                            </div>
+                        </td>
+                        <td>1-5555-4444</td>
+                        <td>BioMed Innovate</td>
+                        <td>Especialista en RRHH</td>
+                        <td>Recursos Humanos</td>
+                        <td><span class="status-label inactive-dot">Inactivo</span></td>
+                    </tr>
+                     <!-- Fila 4 -->
+                    <tr>
+                        <td class="user-cell">
+                            <div class="avatar-circle small-avatar blue-bg">LR</div>
+                            <div class="user-info">
+                                <span class="user-name-table">Luis Ramirez Soto</span>
+                                <span class="user-email">lramirez@techcorp.cr</span>
+                            </div>
+                        </td>
+                        <td>4-1111-2222</td>
+                        <td>TechCorp Costa Rica</td>
+                        <td>Analista Financiero</td>
+                        <td>Finanzas</td>
+                        <td><span class="status-label active-dot">Activo</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Paginación -->
+        <footer class="table-footer">
+            <div class="showing-entries">Mostrando 1 a 4 de 1,248 empleados</div>
+            <div class="pagination">
+                <button class="page-nav disabled">&lt;</button>
+                <button class="page-num active">1</button>
+                <button class="page-num">2</button>
+                <button class="page-num">3</button>
+                <span class="dots">...</span>
+                <button class="page-num">312</button>
+                <button class="page-nav">&gt;</button>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="empleados.js"></script>
+</body>
+</html>
