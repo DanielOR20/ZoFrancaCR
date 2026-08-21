@@ -42,7 +42,8 @@ function buildRow(u) {
   const tr = document.createElement("tr");
   const initials = String(u.name || "? ").trim().split(/\s+/).map((s) => s[0]).slice(0, 2).join("").toUpperCase();
   const st = STATUS_META[u.status] || STATUS_META.pending;
-  const role = u.role === "admin" ? "Administrador" : "Usuario";
+  const roleMap = { admin: "Administrador", empresa: "Empresa", colaborador: "Colaborador" };
+  const role = roleMap[u.role] || "Usuario";
   tr.innerHTML = `
     <td class="p-3"><div class="flex items-center gap-2.5"><div class="avatar">${esc(initials)}</div><span class="font-semibold">${esc(u.name)}</span></div></td>
     <td class="p-3">${esc(u.email)}</td>

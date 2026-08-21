@@ -100,21 +100,26 @@ export async function login(email, password) {
 }
 
 /**
- * Crea un usuario nuevo. Siempre se guarda con role: "user" y status: "pending",
- * quedando pendiente de aprobación por un administrador.
+ * Crea un usuario nuevo. La función acepta un rol visual (usuario, empresa o
+ * colaborador). Por seguridad, el `role` interno siempre es "user" (o uno de
+ * sus subtipos) y NUNCA "admin"; el `status` siempre es "pending" hasta que un
+ * administrador lo apruebe.
  */
-export async function register({ name, email, password }) {
+export async function register({ name, email, password, role = "user" }) {
   const existing = await listUsers(email);
   if (Array.isArray(existing) && existing.length) {
     return { ok: false, code: "duplicate" };
   }
+  // Subtipos visuales no administrativos. Nunca permitimos promover a admin.
+  const allowed = ["empresa", "colaborador"];
+  const safeRole = allowed.includes(role) ? role : "user";
   const created = await request(API.users(), {
     method: "POST",
     body: JSON.stringify({
       name,
       email: normEmail(email),
       password,
-      role: "user",
+      role: safeRole,
       status: "pending",
     }),
   });
