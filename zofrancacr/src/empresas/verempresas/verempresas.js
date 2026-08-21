@@ -1,77 +1,44 @@
 /**
- * ZoFrancaCR — verempresas.js
- * Lógica para la vista de detalle de empresa:
- * 1. Lee el ID o datos de la empresa desde URL params o localStorage
- * 2. Renderiza la información de la empresa dinámicamente
- * 3. Permite alternar pestañas interactivas
- * 4. Manejo de botones de edición y eliminación con confirmación
+ * ZoFrancaCR — verempresas.js (Versión Asíncrona conectada a JSON-Server)
+ * Lógica para la vista de detalle de empresa
  */
 
 (function () {
   'use strict';
 
-  // Base de datos de empresas predeterminada
-  const defaultCompanies = [
-    {
-      id: 'EMP-1042',
-      name: 'TechCorp Industries Costa Rica S.A.',
-      tradeName: 'TechCorp CR',
-      legalId: '3-101-555444',
-      sector: 'Tecnología Médica',
-      category: 'Servicios - Categoría C',
-      entryDate: '15 de Marzo, 2018',
-      park: 'Zona Franca Metropolitana',
-      building: 'Edificio B, Nave 4',
-      district: 'Heredia, Barreal, Heredia',
-      status: 'Activa',
-      employees: 142
-    },
-    {
-      id: 'EMP-1089',
-      name: 'LogisNet Global S.A.',
-      tradeName: 'LogisNet',
-      legalId: '3-101-689102',
-      sector: 'Logística',
-      category: 'Logística y Almacenaje - Categoría A',
-      entryDate: '04 de Agosto, 2022',
-      park: 'Parque Industrial El Coyol',
-      building: 'Nave Industrial 4',
-      district: 'Alajuela, El Coyol, Alajuela',
-      status: 'Activa',
-      employees: 85
-    },
-    {
-      id: 'EMP-1102',
-      name: 'Synergy Services Limitada',
-      tradeName: 'Synergy BPO',
-      legalId: '3-102-778899',
-      sector: 'Servicios Compartidos',
-      category: 'Servicios Corporativos - Categoría B',
-      entryDate: '22 de Enero, 2023',
-      park: 'Centro Corporativo Plaza Roble',
-      building: 'Edificio A, Piso 1',
-      district: 'San José, Escazú, San Rafael',
-      status: 'Inactiva',
-      employees: 12
-    }
-  ];
+  const API_URL = 'http://localhost:3000/empresas';
 
-  document.addEventListener('DOMContentLoaded', () => {
-
-    // 1. Obtener ID de la empresa desde la URL (ej: verempresas.html?id=EMP-1042)
+  document.addEventListener('DOMContentLoaded', async () => {
+    
+    // 1. Obtener ID de la empresa desde la URL
     const urlParams = new URLSearchParams(window.location.search);
-    const companyId = urlParams.get('id') || 'EMP-1042';
+    const companyId = urlParams.get('id');
 
-    // Obtener lista completa (localStorage + default)
-    let stored = [];
-    try {
-      stored = JSON.parse(localStorage.getItem('zofranca_companies') || '[]');
-    } catch (e) {
-      console.error(e);
+    if (!companyId) {
+      alert("Error: No se especificó el ID de la empresa.");
+      window.location.href = '../empresas.html';
+      return;
     }
 
-    const allCompanies = [...stored, ...defaultCompanies];
-    let company = allCompanies.find(c => c.id === companyId) || defaultCompanies[0];
+    let company = null;
+
+    try {
+      // JSON Server acepta ?id=XXX para filtrar
+      const res = await fetch(`${API_URL}?id=${companyId}`);
+      if (!res.ok) throw new Error('Error al conectar con la base de datos.');
+      
+      const data = await res.json();
+      if (data.length > 0) {
+        company = data[0];
+      } else {
+        throw new Error('Empresa no encontrada.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error: No se pudo cargar la información de la empresa.");
+      window.location.href = '../empresas.html';
+      return;
+    }
 
     // 2. Renderizar datos en pantalla
     const dispCompanyName = document.getElementById('dispCompanyName');
@@ -115,17 +82,87 @@
       });
     });
 
-    // 4. Botón Eliminar
+    // 4. Modal Corporativo de Confirmación de Eliminación
+    const deleteModal = document.getElementById('deleteConfirmModal');
+    const deleteModalDesc = document.getElementById('deleteModalDesc');
+    const btnCancelDelete = document.getElementById('btnCancelDelete');
+    const btnAcceptDelete = document.getElementById('btnAcceptDelete');
     const btnDelete = document.getElementById('btnDeleteCompany');
+
+    const showToast = (message, isError = false) => {
+      const existingToast = document.querySelector('.corporate-toast');
+      if (existingToast) existingToast.remove();
+
+      const toast = document.createElement('div');
+      toast.className = `corporate-toast ${isError ? 'corporate-toast--error' : ''}`;
+      toast.innerHTML = `
+        <svg style="width: 1.25rem; height: 1.25rem; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          ${isError 
+            ? '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>' 
+            : '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>'}
+        </svg>
+        <span>${message}</span>
+      `;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    };
+
+    const openDeleteModal = () => {
+      if (deleteModalDesc) {
+        deleteModalDesc.textContent = `¿Está seguro de que desea eliminar la empresa "${company.name}"? Esta acción no se puede deshacer.`;
+      }
+      deleteModal.classList.add('is-open');
+      deleteModal.setAttribute('aria-hidden', 'false');
+    };
+
+    const closeDeleteModal = () => {
+      deleteModal.classList.remove('is-open');
+      deleteModal.setAttribute('aria-hidden', 'true');
+    };
+
     if (btnDelete) {
-      btnDelete.addEventListener('click', () => {
-        if (confirm(`¿Está seguro de que desea eliminar la empresa "${company.name}"?`)) {
-          try {
-            const updated = stored.filter(c => c.id !== company.id);
-            localStorage.setItem('zofranca_companies', JSON.stringify(updated));
-          } catch (e) {}
-          alert('Empresa eliminada exitosamente.');
-          window.location.href = '../empresas.html';
+      btnDelete.addEventListener('click', openDeleteModal);
+    }
+
+    if (btnCancelDelete) {
+      btnCancelDelete.addEventListener('click', closeDeleteModal);
+    }
+
+    if (deleteModal) {
+      deleteModal.addEventListener('click', (e) => {
+        if (e.target === deleteModal) closeDeleteModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && deleteModal.classList.contains('is-open')) closeDeleteModal();
+      });
+    }
+
+    if (btnAcceptDelete) {
+      btnAcceptDelete.addEventListener('click', async () => {
+        btnAcceptDelete.textContent = 'Eliminando...';
+        btnAcceptDelete.disabled = true;
+
+        try {
+          const res = await fetch(`${API_URL}/${company.id}`, { method: 'DELETE' });
+          if (!res.ok) throw new Error('Fallo al eliminar');
+          
+          closeDeleteModal();
+          showToast(`Empresa "${company.name}" eliminada exitosamente.`, false);
+          
+          setTimeout(() => {
+            window.location.href = '../empresas.html';
+          }, 800);
+        } catch (e) {
+          console.error(e);
+          showToast('Error de red al intentar eliminar la empresa.', true);
+          btnAcceptDelete.textContent = 'Eliminar Definitivamente';
+          btnAcceptDelete.disabled = false;
         }
       });
     }

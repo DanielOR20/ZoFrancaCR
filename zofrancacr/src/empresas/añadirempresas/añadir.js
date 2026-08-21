@@ -273,10 +273,20 @@
     /**
      * 6. Submit y guardado de datos
      */
-    const submitForm = () => {
+    const submitForm = async () => {
       if (!validateForm()) {
         showToast('Por favor, revise los campos requeridos marcados en rojo.', true);
         return;
+      }
+
+      if (btnSaveTop) {
+        btnSaveTop.textContent = 'Guardando...';
+        btnSaveTop.disabled = true;
+      }
+      const formSubmitBtn = form.querySelector('button[type="submit"]');
+      if (formSubmitBtn) {
+        formSubmitBtn.textContent = 'Guardando...';
+        formSubmitBtn.disabled = true;
       }
 
       const razonSocial = fields.razonSocial.value.trim();
@@ -305,20 +315,36 @@
         legalId: cedulaJuridica
       };
 
-      // Guardar en localStorage
       try {
-        const storedCompanies = JSON.parse(localStorage.getItem('zofranca_companies') || '[]');
-        storedCompanies.unshift(newCompany);
-        localStorage.setItem('zofranca_companies', JSON.stringify(storedCompanies));
+        const res = await fetch('http://localhost:3000/empresas', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newCompany)
+        });
+
+        if (!res.ok) throw new Error('Error guardando en base de datos.');
+
+        showToast(`¡Empresa "${newCompany.name}" registrada con éxito!`, false);
+
+        setTimeout(() => {
+          window.location.href = '../empresas.html';
+        }, 1000);
+
       } catch (err) {
-        console.error('Error guardando en localStorage:', err);
+        console.error(err);
+        showToast('Error de red. Asegúrate de tener json-server activo.', true);
+        
+        if (btnSaveTop) {
+          btnSaveTop.textContent = 'Guardar Empresa';
+          btnSaveTop.disabled = false;
+        }
+        if (formSubmitBtn) {
+          formSubmitBtn.textContent = 'Guardar Empresa';
+          formSubmitBtn.disabled = false;
+        }
       }
-
-      showToast(`¡Empresa "${newCompany.name}" registrada con éxito!`, false);
-
-      setTimeout(() => {
-        window.location.href = '../empresas.html';
-      }, 1000);
     };
 
     if (form) {

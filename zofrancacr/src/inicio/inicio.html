@@ -112,9 +112,9 @@
                 <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
               </svg>
             </a>
-            <a href="#login" class="btn btn-outline-light">
+            <button class="btn btn-outline-light" id="heroLoginBtn">
               Iniciar sesión
-            </a>
+            </button>
           </div>
 
           <!-- Micro-Trust Bar -->
@@ -387,6 +387,31 @@
       </div>
     </div>
   </footer>
+
+  <!-- Modal de Login (Añadido dinámicamente) -->
+  <div class="modal-overlay hidden" id="loginModal" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <button class="modal-close" id="btnCloseLogin">&times;</button>
+      <div class="modal-header">
+        <h3 style="color: var(--text-main); font-family: 'Montserrat', sans-serif;">Acceso Administrativo</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">Por favor ingresa tus credenciales de ZoFrancaCR.</p>
+      </div>
+      <form id="formLoginAdmin" style="margin-top: 1.5rem;">
+        <div id="loginError" style="background: #FEF2F2; color: #EF4444; padding: 0.75rem; border-radius: 4px; font-size: 0.85rem; margin-bottom: 1rem; display: none;">
+          Usuario o contraseña incorrectos.
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-muted);">Usuario</label>
+          <input type="text" id="loginUsername" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px; font-family: inherit;">
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-muted);">Contraseña</label>
+          <input type="password" id="loginPassword" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px; font-family: inherit;">
+        </div>
+        <button type="submit" class="btn btn-emerald-solid" style="width: 100%; justify-content: center;">Ingresar al Panel</button>
+      </form>
+    </div>
+  </div>
 
   <!-- Script Modular Vanilla -->
   <script src="./inicio.js"></script>

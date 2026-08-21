@@ -1,79 +1,13 @@
 /**
- * ZoFrancaCR — empresas.js
- * Lógica Vanilla JS para Gestión de Empresas:
- * 1. Renderizado de tabla de datos
- * 2. Búsqueda y filtrado en tiempo real
- * 3. Paginación de resultados
- * 4. Modal para agregar y editar empresas
- * 5. Exportación a CSV
+ * ZoFrancaCR — empresas.js (Versión Asíncrona conectada a JSON-Server)
+ * Lógica Vanilla JS para Gestión de Empresas
  */
 
 (function () {
   'use strict';
 
-  // Base de datos inicial en memoria con los registros de referencia
-  let companiesData = [
-    {
-      id: 'EMP-1042',
-      name: 'TechCorp Industries',
-      avatar: 'T',
-      sector: 'Tecnología Médica',
-      location: 'Edificio B, Piso 3',
-      status: 'Activo',
-      employees: 342,
-      registeredDate: '12 May 2021'
-    },
-    {
-      id: 'EMP-1089',
-      name: 'LogisNet Global',
-      avatar: 'L',
-      sector: 'Logística',
-      location: 'Nave Industrial 4',
-      status: 'Activo',
-      employees: 85,
-      registeredDate: '04 Ago 2022'
-    },
-    {
-      id: 'EMP-1102',
-      name: 'Synergy Services',
-      avatar: 'S',
-      sector: 'Servicios Compartidos',
-      location: 'Edificio A, Piso 1',
-      status: 'Inactivo',
-      employees: 12,
-      registeredDate: '22 Ene 2023'
-    },
-    {
-      id: 'EMP-1145',
-      name: 'BioHealth Costa Rica',
-      avatar: 'B',
-      sector: 'Tecnología Médica',
-      location: 'Edificio C, Piso 2',
-      status: 'Activo',
-      employees: 210,
-      registeredDate: '15 Mar 2023'
-    },
-    {
-      id: 'EMP-1180',
-      name: 'CloudSync Solutions',
-      avatar: 'C',
-      sector: 'Desarrollo de Software',
-      location: 'Edificio B, Piso 4',
-      status: 'Activo',
-      employees: 145,
-      registeredDate: '28 Jun 2023'
-    },
-    {
-      id: 'EMP-1205',
-      name: 'AeroPrecision CR',
-      avatar: 'A',
-      sector: 'Manufactura Avanzada',
-      location: 'Nave Industrial 2',
-      status: 'Activo',
-      employees: 320,
-      registeredDate: '10 Nov 2023'
-    }
-  ];
+  const API_URL = 'http://localhost:3000/empresas';
+  let companiesData = [];
 
   // Estado de la aplicación
   let state = {
@@ -113,20 +47,24 @@
   const companyLocationInput = document.getElementById('companyLocationInput');
   const companyEmployeesInput = document.getElementById('companyEmployeesInput');
   const companyStatusInput = document.getElementById('companyStatusInput');
+  const btnSubmitForm = companyForm.querySelector('button[type="submit"]');
 
   /**
-   * Cargar datos desde localStorage
+   * Cargar datos asíncronamente desde json-server
    */
-  const loadData = () => {
+  const loadData = async () => {
+    tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem;">Cargando empresas...</td></tr>';
     try {
-      const stored = JSON.parse(localStorage.getItem('zofranca_companies') || '[]');
-      if (Array.isArray(stored) && stored.length > 0) {
-        const storedIds = new Set(stored.map(c => c.id));
-        const nonDuplicateDefaults = companiesData.filter(c => !storedIds.has(c.id));
-        companiesData = [...stored, ...nonDuplicateDefaults];
-      }
+      const res = await fetch(API_URL);
+      if (!res.ok) throw new Error('Error en red');
+      companiesData = await res.json();
+      
+      // Ordenar por defecto: más recientes primero (opcional)
+      companiesData.reverse(); 
+      render();
     } catch (e) {
-      console.error('Error cargando localStorage:', e);
+      console.error('Error cargando empresas:', e);
+      tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: red; padding: 2rem;">Error al conectar con la base de datos (json-server).</td></tr>';
     }
   };
 
@@ -134,19 +72,17 @@
    * Inicialización
    */
   const init = () => {
-    loadData();
     bindEvents();
-    render();
+    loadData();
 
-    // Actualizar si el usuario regresa con el botón Atrás del navegador (bfcache)
-    window.addEventListener('pageshow', () => {
-      loadData();
-      render();
+    // Actualizar si el usuario regresa con el botón Atrás del navegador
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) loadData();
     });
   };
 
   /**
-   * Filtra las empresas según búsqueda y dropdowns (Muestra todas por defecto)
+   * Filtra las empresas según búsqueda y dropdowns
    */
   const getFilteredData = () => {
     return companiesData.filter(item => {
@@ -175,7 +111,6 @@
     const totalItems = filtered.length;
     const totalPages = Math.max(1, Math.ceil(totalItems / state.itemsPerPage));
 
-    // Ajustar página si excede el rango
     if (state.currentPage > totalPages) {
       state.currentPage = totalPages;
     }
@@ -184,7 +119,6 @@
     const endIndex = Math.min(startIndex + state.itemsPerPage, totalItems);
     const currentPageItems = filtered.slice(startIndex, endIndex);
 
-    // Renderizar filas de la tabla
     if (currentPageItems.length === 0) {
       tableBody.innerHTML = `
         <tr>
@@ -216,19 +150,19 @@
           <td>${escapeHtml(comp.registeredDate)}</td>
           <td>
             <div class="table-actions-cell">
-              <a href="./verempresas/verempresas.html?id=${comp.id}" class="btn-action-icon btn-action-view" data-id="${comp.id}" aria-label="Ver detalles de ${escapeHtml(comp.name)}">
+              <a href="./verempresas/verempresas.html?id=${comp.id}" class="btn-action-icon btn-action-view" aria-label="Ver detalles">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                   <circle cx="12" cy="12" r="3"></circle>
                 </svg>
               </a>
-              <button class="btn-action-icon btn-action-edit" data-id="${comp.id}" aria-label="Editar empresa ${escapeHtml(comp.name)}">
+              <button class="btn-action-icon btn-action-edit" data-id="${comp.id}" aria-label="Editar">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                 </svg>
               </button>
-              <button class="btn-action-icon btn-action-delete" data-id="${comp.id}" aria-label="Eliminar empresa ${escapeHtml(comp.name)}">
+              <button class="btn-action-icon btn-action-delete" data-id="${comp.id}" aria-label="Eliminar">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <polyline points="3 6 5 6 21 6"></polyline>
                   <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -240,27 +174,22 @@
       `).join('');
     }
 
-    // Actualizar texto informativo de paginación
     if (totalItems > 0) {
       paginationInfo.textContent = `Mostrando ${startIndex + 1} a ${endIndex} de ${totalItems} empresas`;
     } else {
       paginationInfo.textContent = `Mostrando 0 a 0 de 0 empresas`;
     }
 
-    // Actualizar botones de paginación
     btnPrevPage.disabled = state.currentPage <= 1;
     btnNextPage.disabled = state.currentPage >= totalPages;
 
-    // Números de página
     paginationNumbers.innerHTML = '';
     for (let i = 1; i <= totalPages; i++) {
       const btn = document.createElement('button');
       btn.className = `pagination-num ${i === state.currentPage ? 'is-active' : ''}`;
       btn.textContent = i;
       btn.setAttribute('aria-label', `Ir a la página ${i}`);
-      if (i === state.currentPage) {
-        btn.setAttribute('aria-current', 'page');
-      }
+      if (i === state.currentPage) btn.setAttribute('aria-current', 'page');
       btn.addEventListener('click', () => {
         state.currentPage = i;
         render();
@@ -269,9 +198,6 @@
     }
   };
 
-  /**
-   * Escape HTML simple para prevenir inyección en strings renderizadas
-   */
   const escapeHtml = (str) => {
     return String(str)
       .replace(/&/g, '&amp;')
@@ -295,10 +221,12 @@
       companyLocationInput.value = companyToEdit.location;
       companyEmployeesInput.value = companyToEdit.employees;
       companyStatusInput.value = companyToEdit.status;
+      companyCodeInput.readOnly = true; // El ID de BD no se suele editar
     } else {
       modalTitle.textContent = 'Agregar Nueva Empresa';
       companyIdField.value = '';
       companyStatusInput.value = 'Activo';
+      companyCodeInput.readOnly = false;
     }
     companyModal.classList.add('is-open');
     companyModal.setAttribute('aria-hidden', 'false');
@@ -310,30 +238,44 @@
     companyModal.setAttribute('aria-hidden', 'true');
   };
 
+  const showToast = (message, isError = false) => {
+    const existingToast = document.querySelector('.corporate-toast');
+    if (existingToast) existingToast.remove();
+
+    const toast = document.createElement('div');
+    toast.className = `corporate-toast ${isError ? 'corporate-toast--error' : ''}`;
+    toast.innerHTML = `
+      <svg style="width: 1.25rem; height: 1.25rem; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        ${isError 
+          ? '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>' 
+          : '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>'}
+      </svg>
+      <span>${message}</span>
+    `;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(10px)';
+      setTimeout(() => toast.remove(), 300);
+    }, 3500);
+  };
+
   /**
-   * Exportar datos a CSV
+   * Exportar a CSV
    */
   const exportToCSV = () => {
     const data = getFilteredData();
     if (!data.length) {
-      alert('No hay datos para exportar.');
+      showToast('No hay datos para exportar.', true);
       return;
     }
-
     const headers = ['ID', 'Nombre', 'Sector', 'Ubicacion', 'Estado', 'Empleados', 'Fecha_Registro'];
     const rows = data.map(item => [
-      item.id,
-      `"${item.name}"`,
-      `"${item.sector}"`,
-      `"${item.location}"`,
-      item.status,
-      item.employees,
-      `"${item.registeredDate}"`
+      item.id, `"${item.name}"`, `"${item.sector}"`, `"${item.location}"`, item.status, item.employees, `"${item.registeredDate}"`
     ]);
-
-    const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + 
-      [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
-
+    const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
@@ -341,20 +283,63 @@
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    showToast('Archivo CSV exportado exitosamente.', false);
   };
+
+  // Modal de Eliminación
+  const deleteModal = document.getElementById('deleteConfirmModal');
+  const deleteModalDesc = document.getElementById('deleteModalDesc');
+  const btnCancelDelete = document.getElementById('btnCancelDelete');
+  const btnAcceptDelete = document.getElementById('btnAcceptDelete');
+  let companyToDeleteId = null;
+
+  const openDeleteModal = (company) => {
+    companyToDeleteId = company.id;
+    if (deleteModalDesc) deleteModalDesc.textContent = `¿Está seguro de que desea eliminar la empresa "${company.name}"?`;
+    deleteModal.classList.add('is-open');
+    deleteModal.setAttribute('aria-hidden', 'false');
+  };
+
+  const closeDeleteModal = () => {
+    companyToDeleteId = null;
+    deleteModal.classList.remove('is-open');
+    deleteModal.setAttribute('aria-hidden', 'true');
+  };
+
+  if (btnCancelDelete) btnCancelDelete.addEventListener('click', closeDeleteModal);
+
+  if (btnAcceptDelete) {
+    btnAcceptDelete.addEventListener('click', async () => {
+      if (!companyToDeleteId) return;
+      btnAcceptDelete.textContent = 'Eliminando...';
+      btnAcceptDelete.disabled = true;
+
+      try {
+        const res = await fetch(`${API_URL}/${companyToDeleteId}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Error al eliminar');
+        
+        showToast('Empresa eliminada con éxito.', false);
+        closeDeleteModal();
+        await loadData();
+      } catch (err) {
+        showToast('Error de red al eliminar.', true);
+      } finally {
+        btnAcceptDelete.textContent = 'Eliminar Empresa';
+        btnAcceptDelete.disabled = false;
+      }
+    });
+  }
 
   /**
    * Enlazar eventos de usuario
    */
   const bindEvents = () => {
-    // Búsqueda en tiempo real
     searchInput.addEventListener('input', (e) => {
       state.searchQuery = e.target.value;
       state.currentPage = 1;
       render();
     });
 
-    // Menú de filtros
     btnFilterToggle.addEventListener('click', (e) => {
       e.stopPropagation();
       const isOpen = filterMenu.classList.toggle('is-open');
@@ -366,7 +351,6 @@
       if (!filterMenu.contains(e.target) && e.target !== btnFilterToggle) {
         filterMenu.classList.remove('is-open');
         btnFilterToggle.setAttribute('aria-expanded', 'false');
-        filterMenu.setAttribute('aria-hidden', 'true');
       }
     });
 
@@ -375,129 +359,106 @@
       state.selectedStatus = filterEstado.value;
       state.currentPage = 1;
       filterMenu.classList.remove('is-open');
-      btnFilterToggle.setAttribute('aria-expanded', 'false');
-      filterMenu.setAttribute('aria-hidden', 'true');
       render();
     });
 
     btnResetFilters.addEventListener('click', () => {
-      filterSector.value = 'todos';
-      filterEstado.value = 'todos';
-      state.selectedSector = 'todos';
-      state.selectedStatus = 'todos';
+      filterSector.value = 'todos'; filterEstado.value = 'todos';
+      state.selectedSector = 'todos'; state.selectedStatus = 'todos';
       state.currentPage = 1;
       render();
     });
 
-    // Exportar
     btnExport.addEventListener('click', exportToCSV);
 
-    // Paginación
     btnPrevPage.addEventListener('click', () => {
-      if (state.currentPage > 1) {
-        state.currentPage--;
-        render();
-      }
+      if (state.currentPage > 1) { state.currentPage--; render(); }
     });
 
     btnNextPage.addEventListener('click', () => {
       const totalPages = Math.ceil(getFilteredData().length / state.itemsPerPage);
-      if (state.currentPage < totalPages) {
-        state.currentPage++;
-        render();
-      }
+      if (state.currentPage < totalPages) { state.currentPage++; render(); }
     });
 
-    // Modal eventos
     btnOpenAddModal.addEventListener('click', () => openModal());
     btnCloseModal.addEventListener('click', closeModal);
     btnCancelModal.addEventListener('click', closeModal);
 
-    companyModal.addEventListener('click', (e) => {
-      if (e.target === companyModal) {
-        closeModal();
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && companyModal.classList.contains('is-open')) {
-        closeModal();
-      }
-    });
-
-    // Guardar / Editar Empresa
-    companyForm.addEventListener('submit', (e) => {
+    // Formulario (Guardar o Editar Asíncrono)
+    companyForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const existingId = companyIdField.value;
       const newId = companyCodeInput.value.trim();
       const newName = companyNameInput.value.trim();
-      const newSector = companySectorInput.value;
-      const newLocation = companyLocationInput.value.trim();
-      const newEmployees = parseInt(companyEmployeesInput.value, 10) || 0;
-      const newStatus = companyStatusInput.value;
+      
+      const payload = {
+        id: newId || 'EMP-' + Math.floor(Math.random() * 10000), // Fallback ID si está vacío
+        name: newName,
+        avatar: newName.charAt(0).toUpperCase(),
+        sector: companySectorInput.value,
+        location: companyLocationInput.value.trim(),
+        employees: parseInt(companyEmployeesInput.value, 10) || 0,
+        status: companyStatusInput.value,
+      };
 
-      if (existingId) {
-        // Editar existente
-        const index = companiesData.findIndex(item => item.id === existingId);
-        if (index !== -1) {
-          companiesData[index] = {
-            ...companiesData[index],
-            id: newId,
-            name: newName,
-            avatar: newName.charAt(0).toUpperCase(),
-            sector: newSector,
-            location: newLocation,
-            employees: newEmployees,
-            status: newStatus
-          };
+      btnSubmitForm.textContent = 'Guardando...';
+      btnSubmitForm.disabled = true;
+
+      try {
+        let res;
+        if (existingId) {
+          // Editar (PATCH para conservar campos como registeredDate si existen)
+          res = await fetch(`${API_URL}/${existingId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          // Crear (POST)
+          const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'];
+          const now = new Date();
+          payload.registeredDate = `${String(now.getDate()).padStart(2, '0')} ${months[now.getMonth()]} ${now.getFullYear()}`;
+          
+          res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
         }
-      } else {
-        // Agregar nuevo registro
-        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'];
-        const now = new Date();
-        const formattedDate = `${String(now.getDate()).padStart(2, '0')} ${months[now.getMonth()]} ${now.getFullYear()}`;
 
-        companiesData.unshift({
-          id: newId,
-          name: newName,
-          avatar: newName.charAt(0).toUpperCase(),
-          sector: newSector,
-          location: newLocation,
-          status: newStatus,
-          employees: newEmployees,
-          registeredDate: formattedDate
-        });
+        if (!res.ok) throw new Error('Fallo al guardar empresa');
+
+        showToast('Empresa guardada con éxito.', false);
+        closeModal();
+        await loadData();
+      } catch (err) {
+        showToast('Error de red al guardar.', true);
+        console.error(err);
+      } finally {
+        btnSubmitForm.textContent = 'Guardar Empresa';
+        btnSubmitForm.disabled = false;
       }
-
-      closeModal();
-      render();
     });
 
-    // Acciones de fila (Editar y Eliminar) por delegación de eventos
+    // Delegación de eventos en tabla
     tableBody.addEventListener('click', (e) => {
       const editBtn = e.target.closest('.btn-action-edit');
       const deleteBtn = e.target.closest('.btn-action-delete');
 
       if (editBtn) {
         const id = editBtn.getAttribute('data-id');
-        const company = companiesData.find(item => item.id === id);
-        if (company) {
-          openModal(company);
-        }
+        const company = companiesData.find(item => String(item.id) === String(id));
+        if (company) openModal(company);
       }
 
       if (deleteBtn) {
         const id = deleteBtn.getAttribute('data-id');
-        const company = companiesData.find(item => item.id === id);
-        if (company && confirm(`¿Está seguro de que desea eliminar la empresa "${company.name}"?`)) {
-          companiesData = companiesData.filter(item => item.id !== id);
-          render();
-        }
+        const company = companiesData.find(item => String(item.id) === String(id));
+        if (company) openDeleteModal(company);
       }
     });
   };
 
-  // Ejecutar cuando el DOM esté listo
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

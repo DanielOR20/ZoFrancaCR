@@ -32,6 +32,74 @@
     initStatsCounter();
     initMobileNavigation();
     initActiveNavTracking();
+    initLoginModal();
+  };
+
+  /**
+   * 0. Lógica de Login de Administrador (JSON-Server)
+   */
+  const initLoginModal = () => {
+    const loginModal = document.getElementById('loginModal');
+    const headerLoginBtn = document.getElementById('headerLoginBtn');
+    const heroLoginBtn = document.getElementById('heroLoginBtn');
+    const btnCloseLogin = document.getElementById('btnCloseLogin');
+    const formLoginAdmin = document.getElementById('formLoginAdmin');
+    const loginError = document.getElementById('loginError');
+
+    const openModal = (e) => {
+      e.preventDefault();
+      loginModal.style.display = 'flex';
+      loginModal.classList.remove('hidden');
+      loginModal.setAttribute('aria-hidden', 'false');
+    };
+
+    const closeModal = () => {
+      loginModal.style.display = 'none';
+      loginModal.classList.add('hidden');
+      loginModal.setAttribute('aria-hidden', 'true');
+      loginError.style.display = 'none';
+      formLoginAdmin.reset();
+    };
+
+    if(headerLoginBtn) headerLoginBtn.addEventListener('click', openModal);
+    if(heroLoginBtn) heroLoginBtn.addEventListener('click', openModal);
+    if(btnCloseLogin) btnCloseLogin.addEventListener('click', closeModal);
+    
+    // Cerrar si se da click afuera
+    loginModal.addEventListener('click', (e) => {
+      if (e.target === loginModal) closeModal();
+    });
+
+    if(formLoginAdmin) {
+      formLoginAdmin.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const user = document.getElementById('loginUsername').value;
+        const pass = document.getElementById('loginPassword').value;
+        const btn = formLoginAdmin.querySelector('button[type="submit"]');
+        btn.textContent = 'Autenticando...';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(`http://localhost:3000/usuarios?usuario=${user}&password=${pass}`);
+          const data = await res.json();
+          
+          if (data.length > 0) {
+            // Éxito: Guardar sesión localmente y redirigir al panel (empresas)
+            localStorage.setItem('zofranca_session', JSON.stringify(data[0]));
+            window.location.href = './empresas/empresas.html';
+          } else {
+            loginError.style.display = 'block';
+            btn.textContent = 'Ingresar al Panel';
+            btn.disabled = false;
+          }
+        } catch (error) {
+          console.error("Error conectando con db.json", error);
+          alert("Error de conexión. Asegúrate de tener json-server activo en el puerto 3000.");
+          btn.textContent = 'Ingresar al Panel';
+          btn.disabled = false;
+        }
+      });
+    }
   };
 
   /**

@@ -1,0 +1,255 @@
+/* 
+  Estilos Específicos para Sistema de Instalación y Auditoría
+*/
+
+/* Layout a dos columnas para los formularios (Desktop) */
+.forms-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .forms-grid {
+    grid-template-columns: 1fr 1fr; /* Ambos formularios a la par 50/50 */
+    align-items: start;
+  }
+}
+
+.data-card {
+  padding: 2rem;
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
+}
+
+.solicitud-header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1.5rem;
+  position: relative;
+}
+
+.solicitud-header h2 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.solicitud-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Badge de Fase */
+.badge-fase {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+.phase-1 { background-color: #DBEAFE; color: #1E40AF; } /* Azul */
+.phase-2 { background-color: #E0E7FF; color: #3730A3; } /* Indigo */
+
+/* Formulario */
+.solicitud-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-actions {
+  margin-top: 1.5rem;
+}
+
+.btn-submit-ia, .btn-submit-audit {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-submit-ia:disabled, .btn-submit-audit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: var(--text-muted);
+  color: #fff;
+  border-color: transparent;
+}
+
+.ia-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.6; transform: scale(0.95); }
+}
+
+.is-analyzing .ia-icon {
+  animation: pulseGlow 1.5s infinite ease-in-out;
+  color: #FCD34D;
+}
+
+/* Contenedor de Feedback Dinámico */
+.feedback-container {
+  margin-bottom: 1.5rem;
+}
+
+.feedback-alert {
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  animation: slideDownFade 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feedback-alert--error {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-left: 4px solid #DC2626;
+}
+.feedback-alert--error .feedback-icon { color: #DC2626; }
+
+.feedback-alert--warning {
+  background-color: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-left: 4px solid #D97706;
+}
+.feedback-alert--warning .feedback-icon { color: #D97706; }
+
+.feedback-alert--success {
+  background-color: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  border-left: 4px solid #10B981;
+}
+.feedback-alert--success .feedback-icon { color: #10B981; }
+
+.feedback-icon {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0.1rem;
+}
+
+.feedback-content {
+  flex: 1;
+}
+
+.feedback-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+  color: var(--text-heading);
+}
+
+.feedback-message {
+  font-size: 0.875rem;
+  color: var(--text-body);
+  line-height: 1.5;
+}
+
+/* Tabla del Analista */
+.corporate-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.corporate-table th {
+  background-color: var(--bg-body);
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--border-subtle);
+}
+
+.corporate-table td {
+  padding: 1.25rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-body);
+  font-size: 0.9rem;
+}
+
+.corporate-table tr:hover td {
+  background-color: rgba(0,0,0,0.01);
+}
+
+/* Filas con Alertas de Cumplimiento (Fase 2) */
+.row-alert {
+  background-color: #FEF2F2 !important;
+}
+.row-alert td {
+  border-bottom: 1px solid #FECACA;
+}
+.text-danger {
+  color: #DC2626 !important;
+  font-weight: 600;
+}
+.text-success {
+  color: #059669 !important;
+  font-weight: 600;
+}
+
+/* Badges de Auditoría */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.badge.clasificacion-avanza { background-color: #D1FAE5; color: #065F46; }
+.badge.clasificacion-revision { background-color: #FEF3C7; color: #92400E; }
+.badge.clasificacion-rechaza { background-color: #FEE2E2; color: #991B1B; }
+
+/* Status Badge (Cumplimiento) */
+.badge-status-ok { background-color: #D1FAE5; color: #065F46; border: 1px solid #34D399; }
+.badge-status-alert { background-color: #FEE2E2; color: #991B1B; border: 1px solid #F87171; }
+.badge-status-pending { background-color: #F3F4F6; color: #4B5563; border: 1px solid #D1D5DB; }
+
+/* Indicador de Afinidad */
+.afinidad-score {
+  font-weight: 700;
+  font-family: var(--font-heading);
+}
+.score-high { color: #10B981; } /* >= 80 */
+.score-med { color: #F59E0B; }  /* >= 50 && < 80 */
+.score-low { color: #EF4444; }  /* < 50 */
+
+/* Utilidades */
+.d-flex { display: flex; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.text-center { text-align: center; }
+
+@keyframes slideDownFade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

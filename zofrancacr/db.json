@@ -1,0 +1,75 @@
+{
+  "usuarios": [
+    {
+      "id": "admin_zofranca",
+      "usuario": "admin",
+      "password": "123",
+      "rol": "administrador",
+      "nombre": "Administrador Principal"
+    }
+  ],
+  "empresas": [
+    {
+      "id": "EMP-1042",
+      "name": "TechCorp Industries",
+      "avatar": "T",
+      "sector": "Tecnología Médica",
+      "location": "Edificio B, Piso 3",
+      "status": "Activo",
+      "employees": 342,
+      "registeredDate": "12 May 2021"
+    },
+    {
+      "id": "EMP-1089",
+      "name": "LogisNet Global",
+      "avatar": "L",
+      "sector": "Logística",
+      "location": "Nave Industrial 4",
+      "status": "Activo",
+      "employees": 85,
+      "registeredDate": "04 Ago 2022"
+    },
+    {
+      "id": "EMP-1102",
+      "name": "Synergy Services",
+      "avatar": "S",
+      "sector": "Servicios Compartidos",
+      "location": "Edificio A, Piso 1",
+      "status": "Inactivo",
+      "employees": 12,
+      "registeredDate": "22 Ene 2023"
+    },
+    {
+      "id": "EMP-1145",
+      "name": "BioHealth Costa Rica",
+      "avatar": "B",
+      "sector": "Tecnología Médica",
+      "location": "Edificio C, Piso 2",
+      "status": "Activo",
+      "employees": 210,
+      "registeredDate": "15 Mar 2023"
+    },
+    {
+      "id": "EMP-1180",
+      "name": "CloudSync Solutions",
+      "avatar": "C",
+      "sector": "Desarrollo de Software",
+      "location": "Edificio B, Piso 4",
+      "status": "Activo",
+      "employees": 145,
+      "registeredDate": "28 Jun 2023"
+    },
+    {
+      "id": "EMP-1205",
+      "name": "AeroPrecision CR",
+      "avatar": "A",
+      "sector": "Manufactura Avanzada",
+      "location": "Nave Industrial 2",
+      "status": "Activo",
+      "employees": 320,
+      "registeredDate": "10 Nov 2023"
+    }
+  ],
+  "solicitudes_instalacion": [],
+  "auditorias": []
+}
