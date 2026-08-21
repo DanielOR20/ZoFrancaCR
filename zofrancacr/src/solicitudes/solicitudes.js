@@ -165,11 +165,12 @@
         
         cargarYMostrarTabla(); // Actualiza panel global
       } catch (error) {
+        console.error(error);
         renderFeedback(feedbackFase1, 'error', 'Error', 'Ocurrió un error al procesar la solicitud.');
       } finally {
         btnSubmitF1.disabled = false;
         btnSubmitF1.classList.remove('is-analyzing');
-        btnTextF1.textContent = originalText;
+        btnTextF1.textContent = "Priorizar Perfil";
       }
     });
 
@@ -222,10 +223,11 @@
         cargarYMostrarTabla(); // Refrescar panel
 
       } catch (error) {
+        console.error(error);
         renderFeedback(feedbackFase2, 'error', 'Error', 'No se pudo guardar el reporte de auditoría.');
       } finally {
         btnSubmitF2.disabled = false;
-        btnTextF2.textContent = originalText;
+        btnTextF2.textContent = "Guardar Reporte y Auditar";
       }
     });
 
@@ -240,25 +242,31 @@
       tablaBody.innerHTML = '<tr><td colspan="6" class="text-center">Cargando datos del servidor...</td></tr>';
       
       let data = [];
+      let empresasData = [];
       try {
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error("Servidor Json-Server apagado");
         data = await response.json();
+        
+        const responseEmp = await fetch('http://localhost:3000/empresas');
+        if (responseEmp.ok) {
+          empresasData = await responseEmp.json();
+        }
       } catch (err) {
         data = fallbackStorage;
       }
 
-      // 1. Poblar el Select de la FASE 2
+      // 1. Poblar el Select de la FASE 2 desde el catálogo de EMPRESAS
       selectEmpresa.innerHTML = '<option value="" disabled selected>Seleccione empresa (ID)</option>';
-      data.forEach(d => {
-        // Solo las que no tengan reporte aún o si quieres sobrescribir, todas
+      const empresasParaSelect = empresasData.length > 0 ? empresasData : data; // Fallback
+      empresasParaSelect.forEach(d => {
         const opt = document.createElement('option');
         opt.value = d.id;
-        opt.textContent = `${d.nombre_empresa}`;
+        opt.textContent = `${d.name || d.nombre_empresa} (${d.id})`;
         selectEmpresa.appendChild(opt);
       });
 
-      // 2. Ordenar y Renderizar Tabla
+      // 2. Ordenar y Renderizar Tabla (Solicitudes de Instalación)
       data.sort((a, b) => b.ia_puntaje - a.ia_puntaje);
 
       if (data.length === 0) {

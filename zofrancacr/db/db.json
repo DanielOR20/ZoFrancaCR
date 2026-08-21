@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Administrador",
+      "email": "admin@empresa.com",
+      "password": "password123",
+      "role": "admin",
+      "status": "approved"
+    },
+    {
+      "id": "2",
+      "name": "María González",
+      "email": "maria@empresa.com",
+      "password": "clave123",
+      "role": "user",
+      "status": "pending"
+    },
+    {
+      "id": "3",
+      "name": "Carlos Mora",
+      "email": "carlos@empresa.com",
+      "password": "clave123",
+      "role": "user",
+      "status": "pending"
+    }
+  ]
+}
