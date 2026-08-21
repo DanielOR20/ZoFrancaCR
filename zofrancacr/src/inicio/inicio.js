@@ -36,18 +36,22 @@
   };
 
   /**
-   * 0. Lógica de Login de Administrador (JSON-Server)
+   * 0. Lógica de Login y Registro de la Plataforma (JSON-Server)
    */
   const initLoginModal = () => {
     const loginModal = document.getElementById('loginModal');
     const headerLoginBtn = document.getElementById('headerLoginBtn');
     const heroLoginBtn = document.getElementById('heroLoginBtn');
+    const mobileLoginBtn = document.getElementById('mobileLoginBtn');
     const btnCloseLogin = document.getElementById('btnCloseLogin');
     const formLoginAdmin = document.getElementById('formLoginAdmin');
+    const formRegisterUser = document.getElementById('formRegisterUser');
     const loginError = document.getElementById('loginError');
+    const tabBtnLogin = document.getElementById('tabBtnLogin');
+    const tabBtnRegister = document.getElementById('tabBtnRegister');
 
     const openModal = (e) => {
-      e.preventDefault();
+      if (e) e.preventDefault();
       loginModal.style.display = 'flex';
       loginModal.classList.remove('hidden');
       loginModal.setAttribute('aria-hidden', 'false');
@@ -57,45 +61,169 @@
       loginModal.style.display = 'none';
       loginModal.classList.add('hidden');
       loginModal.setAttribute('aria-hidden', 'true');
-      loginError.style.display = 'none';
-      formLoginAdmin.reset();
+      if (loginError) loginError.style.display = 'none';
+      if (formLoginAdmin) formLoginAdmin.reset();
+      if (formRegisterUser) formRegisterUser.reset();
     };
 
-    if(headerLoginBtn) headerLoginBtn.addEventListener('click', openModal);
-    if(heroLoginBtn) heroLoginBtn.addEventListener('click', openModal);
-    if(btnCloseLogin) btnCloseLogin.addEventListener('click', closeModal);
+    if (headerLoginBtn) headerLoginBtn.addEventListener('click', openModal);
+    if (heroLoginBtn) heroLoginBtn.addEventListener('click', openModal);
+    if (mobileLoginBtn) mobileLoginBtn.addEventListener('click', openModal);
+    if (btnCloseLogin) btnCloseLogin.addEventListener('click', closeModal);
     
     // Cerrar si se da click afuera
     loginModal.addEventListener('click', (e) => {
       if (e.target === loginModal) closeModal();
     });
 
-    if(formLoginAdmin) {
+    // Pestañas
+    if (tabBtnLogin && tabBtnRegister) {
+      tabBtnLogin.addEventListener('click', () => {
+        tabBtnLogin.style.background = '#fff';
+        tabBtnLogin.style.color = 'var(--navy-dark)';
+        tabBtnLogin.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+        tabBtnRegister.style.background = 'transparent';
+        tabBtnRegister.style.color = 'var(--text-muted)';
+        tabBtnRegister.style.boxShadow = 'none';
+        if (formLoginAdmin) formLoginAdmin.style.display = 'block';
+        if (formRegisterUser) formRegisterUser.style.display = 'none';
+        if (loginError) loginError.style.display = 'none';
+      });
+
+      tabBtnRegister.addEventListener('click', () => {
+        tabBtnRegister.style.background = '#fff';
+        tabBtnRegister.style.color = 'var(--navy-dark)';
+        tabBtnRegister.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+        tabBtnLogin.style.background = 'transparent';
+        tabBtnLogin.style.color = 'var(--text-muted)';
+        tabBtnLogin.style.boxShadow = 'none';
+        if (formLoginAdmin) formLoginAdmin.style.display = 'none';
+        if (formRegisterUser) formRegisterUser.style.display = 'block';
+        if (loginError) loginError.style.display = 'none';
+      });
+    }
+
+    // Submit Login
+    if (formLoginAdmin) {
       formLoginAdmin.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const user = document.getElementById('loginUsername').value;
+        const userOrEmail = document.getElementById('loginUsername').value.trim();
         const pass = document.getElementById('loginPassword').value;
-        const btn = formLoginAdmin.querySelector('button[type="submit"]');
+        const btn = document.getElementById('btnLoginSubmit');
         btn.textContent = 'Autenticando...';
         btn.disabled = true;
+        if (loginError) loginError.style.display = 'none';
 
         try {
-          const res = await fetch(`http://localhost:3000/usuarios?usuario=${user}&password=${pass}`);
-          const data = await res.json();
+          // 1. Intentar en tabla /usuarios
+          let res = await fetch(`http://127.0.0.1:3000/usuarios?usuario=${encodeURIComponent(userOrEmail)}&password=${encodeURIComponent(pass)}`);
+          let data = await res.json();
           
-          if (data.length > 0) {
-            // Éxito: Guardar sesión localmente y redirigir al panel (empresas)
-            localStorage.setItem('zofranca_session', JSON.stringify(data[0]));
-            window.location.href = './empresas/empresas.html';
+          let authenticatedUser = null;
+
+          if (data && data.length > 0) {
+            authenticatedUser = {
+              id: data[0].id,
+              name: data[0].nombre || data[0].usuario,
+              email: data[0].usuario + '@zofranca.cr',
+              role: data[0].rol === 'administrador' ? 'admin' : data[0].rol,
+              status: 'approved'
+            };
           } else {
-            loginError.style.display = 'block';
+            // 2. Intentar en tabla /users
+            let resUsers = await fetch(`http://127.0.0.1:3000/users?email=${encodeURIComponent(userOrEmail.toLowerCase())}&password=${encodeURIComponent(pass)}`);
+            let dataUsers = await resUsers.json();
+            if (dataUsers && dataUsers.length > 0) {
+              if (dataUsers[0].status === 'rejected') {
+                throw new Error("Esta cuenta ha sido rechazada por el administrador.");
+              }
+              authenticatedUser = dataUsers[0];
+            }
+          }
+
+          if (authenticatedUser) {
+            // Guardar ambas llaves para compatibilidad
+            localStorage.setItem('zofranca_session', JSON.stringify({
+              id: authenticatedUser.id,
+              usuario: authenticatedUser.name || authenticatedUser.email,
+              nombre: authenticatedUser.name || authenticatedUser.email,
+              rol: authenticatedUser.role === 'admin' ? 'administrador' : authenticatedUser.role,
+              role: authenticatedUser.role
+            }));
+            localStorage.setItem('zofrancacr_session', JSON.stringify(authenticatedUser));
+
+            // Redirigir al Dashboard corporativo
+            window.location.href = '/src/dashboard/dashboard.html';
+          } else {
+            if (loginError) {
+              loginError.textContent = 'Usuario o contraseña incorrectos.';
+              loginError.style.display = 'block';
+            }
             btn.textContent = 'Ingresar al Panel';
             btn.disabled = false;
           }
         } catch (error) {
-          console.error("Error conectando con db.json", error);
-          alert("Error de conexión. Asegúrate de tener json-server activo en el puerto 3000.");
+          console.error("Error en login:", error);
+          if (loginError) {
+            loginError.textContent = error.message || 'Error conectando con el servidor. Verifica que json-server esté activo en el puerto 3000.';
+            loginError.style.display = 'block';
+          }
           btn.textContent = 'Ingresar al Panel';
+          btn.disabled = false;
+        }
+      });
+    }
+
+    // Submit Registro
+    if (formRegisterUser) {
+      formRegisterUser.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim().toLowerCase();
+        const role = document.getElementById('regRole').value;
+        const password = document.getElementById('regPassword').value;
+        const btn = document.getElementById('btnRegSubmit');
+
+        btn.textContent = 'Registrando...';
+        btn.disabled = true;
+        if (loginError) loginError.style.display = 'none';
+
+        try {
+          // Verificar si ya existe
+          const check = await fetch(`http://127.0.0.1:3000/users?email=${encodeURIComponent(email)}`);
+          const existing = await check.json();
+          if (existing && existing.length > 0) {
+            throw new Error("Ya existe una cuenta con este correo electrónico.");
+          }
+
+          const newUser = {
+            id: String(Date.now()),
+            name,
+            email,
+            password,
+            role,
+            status: "pending"
+          };
+
+          const postRes = await fetch('http://127.0.0.1:3000/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newUser)
+          });
+
+          if (!postRes.ok) throw new Error("Error al guardar en el servidor.");
+
+          alert(`¡Cuenta registrada exitosamente para ${name}! Quedará pendiente de aprobación por el Administrador.`);
+          formRegisterUser.reset();
+          tabBtnLogin.click();
+        } catch (err) {
+          console.error("Error al registrar:", err);
+          if (loginError) {
+            loginError.textContent = err.message || 'Error al procesar el registro.';
+            loginError.style.display = 'block';
+          }
+        } finally {
+          btn.textContent = 'Registrar Cuenta';
           btn.disabled = false;
         }
       });
