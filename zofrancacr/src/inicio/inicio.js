@@ -37,7 +37,17 @@
 
   /**
    * 0. Lógica de Login y Registro de la Plataforma (JSON-Server)
+   * Usa el módulo auth.js para autenticación contra db.json/users
    */
+  const API_BASE = 'http://127.0.0.1:3000';
+
+  const MESSAGES = {
+    invalid: 'Correo o contraseña incorrectos.',
+    pending: 'Tu cuenta está pendiente de aprobación por el administrador.',
+    rejected: 'Tu cuenta ha sido rechazada por el administrador.',
+    duplicate: 'Ya existe una cuenta con ese correo electrónico.',
+  };
+
   const initLoginModal = () => {
     const loginModal = document.getElementById('loginModal');
     const headerLoginBtn = document.getElementById('headerLoginBtn');
@@ -50,6 +60,17 @@
     const tabBtnLogin = document.getElementById('tabBtnLogin');
     const tabBtnRegister = document.getElementById('tabBtnRegister');
 
+    const showError = (msg) => {
+      if (loginError) {
+        loginError.textContent = msg;
+        loginError.style.display = 'block';
+      }
+    };
+
+    const hideError = () => {
+      if (loginError) loginError.style.display = 'none';
+    };
+
     const openModal = (e) => {
       if (e) e.preventDefault();
       loginModal.style.display = 'flex';
@@ -61,7 +82,7 @@
       loginModal.style.display = 'none';
       loginModal.classList.add('hidden');
       loginModal.setAttribute('aria-hidden', 'true');
-      if (loginError) loginError.style.display = 'none';
+      hideError();
       if (formLoginAdmin) formLoginAdmin.reset();
       if (formRegisterUser) formRegisterUser.reset();
     };
@@ -87,7 +108,7 @@
         tabBtnRegister.style.boxShadow = 'none';
         if (formLoginAdmin) formLoginAdmin.style.display = 'block';
         if (formRegisterUser) formRegisterUser.style.display = 'none';
-        if (loginError) loginError.style.display = 'none';
+        hideError();
       });
 
       tabBtnRegister.addEventListener('click', () => {
@@ -99,129 +120,136 @@
         tabBtnLogin.style.boxShadow = 'none';
         if (formLoginAdmin) formLoginAdmin.style.display = 'none';
         if (formRegisterUser) formRegisterUser.style.display = 'block';
-        if (loginError) loginError.style.display = 'none';
+        hideError();
       });
     }
 
-    // Submit Login
+    // ---- Submit Login ----
+    // Autentica contra db.json/users vía json-server
     if (formLoginAdmin) {
       formLoginAdmin.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const userOrEmail = document.getElementById('loginUsername').value.trim();
+        const emailInput = document.getElementById('loginUsername').value.trim().toLowerCase();
         const pass = document.getElementById('loginPassword').value;
         const btn = document.getElementById('btnLoginSubmit');
+
+        if (!emailInput || !pass) {
+          showError('Ingresa tu correo y tu contraseña.');
+          return;
+        }
+
         btn.textContent = 'Autenticando...';
         btn.disabled = true;
-        if (loginError) loginError.style.display = 'none';
+        hideError();
 
         try {
-          // 1. Intentar en tabla /usuarios
-          let res = await fetch(`http://127.0.0.1:3000/usuarios?usuario=${encodeURIComponent(userOrEmail)}&password=${encodeURIComponent(pass)}`);
-          let data = await res.json();
-          
-          let authenticatedUser = null;
+          // Buscar usuario en la tabla /users de db.json
+          const res = await fetch(`${API_BASE}/users?email=${encodeURIComponent(emailInput)}`);
+          if (!res.ok) throw new Error('Error conectando con el servidor.');
+          const users = await res.json();
+          const user = Array.isArray(users)
+            ? users.find(u => u.email && u.email.toLowerCase() === emailInput)
+            : null;
 
-          if (data && data.length > 0) {
-            authenticatedUser = {
-              id: data[0].id,
-              name: data[0].nombre || data[0].usuario,
-              email: data[0].usuario + '@zofranca.cr',
-              role: data[0].rol === 'administrador' ? 'admin' : data[0].rol,
-              status: 'approved'
-            };
-          } else {
-            // 2. Intentar en tabla /users
-            let resUsers = await fetch(`http://127.0.0.1:3000/users?email=${encodeURIComponent(userOrEmail.toLowerCase())}&password=${encodeURIComponent(pass)}`);
-            let dataUsers = await resUsers.json();
-            if (dataUsers && dataUsers.length > 0) {
-              if (dataUsers[0].status === 'rejected') {
-                throw new Error("Esta cuenta ha sido rechazada por el administrador.");
-              }
-              authenticatedUser = dataUsers[0];
-            }
-          }
-
-          if (authenticatedUser) {
-            // Guardar ambas llaves para compatibilidad
-            localStorage.setItem('zofranca_session', JSON.stringify({
-              id: authenticatedUser.id,
-              usuario: authenticatedUser.name || authenticatedUser.email,
-              nombre: authenticatedUser.name || authenticatedUser.email,
-              rol: authenticatedUser.role === 'admin' ? 'administrador' : authenticatedUser.role,
-              role: authenticatedUser.role
-            }));
-            localStorage.setItem('zofrancacr_session', JSON.stringify(authenticatedUser));
-
-            // Redirigir al Dashboard corporativo
-            window.location.href = '/src/dashboard/dashboard.html';
-          } else {
-            if (loginError) {
-              loginError.textContent = 'Usuario o contraseña incorrectos.';
-              loginError.style.display = 'block';
-            }
+          if (!user || user.password !== pass) {
+            showError(MESSAGES.invalid);
             btn.textContent = 'Ingresar al Panel';
             btn.disabled = false;
+            return;
           }
+
+          if (user.status === 'rejected') {
+            showError(MESSAGES.rejected);
+            btn.textContent = 'Ingresar al Panel';
+            btn.disabled = false;
+            return;
+          }
+
+          if (user.status !== 'approved') {
+            showError(MESSAGES.pending);
+            btn.textContent = 'Ingresar al Panel';
+            btn.disabled = false;
+            return;
+          }
+
+          // Sesión válida — guardar en localStorage con clave unificada
+          const session = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            status: user.status,
+          };
+          localStorage.setItem('zofrancacr_session', JSON.stringify(session));
+
+          // Redirigir al Dashboard corporativo
+          window.location.href = '/src/dashboard/dashboard.html';
+
         } catch (error) {
-          console.error("Error en login:", error);
-          if (loginError) {
-            loginError.textContent = error.message || 'Error conectando con el servidor. Verifica que json-server esté activo en el puerto 3000.';
-            loginError.style.display = 'block';
-          }
+          console.error('Error en login:', error);
+          showError(error.message || 'Error conectando con el servidor. Verifica que json-server esté activo en el puerto 3000.');
           btn.textContent = 'Ingresar al Panel';
           btn.disabled = false;
         }
       });
     }
 
-    // Submit Registro
+    // ---- Submit Registro ----
+    // Crea usuario nuevo en db.json/users vía json-server (status: pending)
     if (formRegisterUser) {
       formRegisterUser.addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = document.getElementById('regName').value.trim();
         const email = document.getElementById('regEmail').value.trim().toLowerCase();
-        const role = document.getElementById('regRole').value;
         const password = document.getElementById('regPassword').value;
         const btn = document.getElementById('btnRegSubmit');
 
+        if (!name || !email || !password) {
+          showError('Completa todos los campos.');
+          return;
+        }
+
+        if (password.length < 6) {
+          showError('La contraseña debe tener al menos 6 caracteres.');
+          return;
+        }
+
         btn.textContent = 'Registrando...';
         btn.disabled = true;
-        if (loginError) loginError.style.display = 'none';
+        hideError();
 
         try {
-          // Verificar si ya existe
-          const check = await fetch(`http://127.0.0.1:3000/users?email=${encodeURIComponent(email)}`);
+          // Verificar si ya existe en db.json/users
+          const check = await fetch(`${API_BASE}/users?email=${encodeURIComponent(email)}`);
           const existing = await check.json();
-          if (existing && existing.length > 0) {
-            throw new Error("Ya existe una cuenta con este correo electrónico.");
+          if (Array.isArray(existing) && existing.length > 0) {
+            showError(MESSAGES.duplicate);
+            btn.textContent = 'Registrar Cuenta';
+            btn.disabled = false;
+            return;
           }
 
-          const newUser = {
-            id: String(Date.now()),
-            name,
-            email,
-            password,
-            role,
-            status: "pending"
-          };
-
-          const postRes = await fetch('http://127.0.0.1:3000/users', {
+          // Crear usuario en db.json vía json-server POST — siempre rol "user"
+          const postRes = await fetch(`${API_BASE}/users`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newUser)
+            body: JSON.stringify({
+              name,
+              email,
+              password,
+              role: 'user',
+              status: 'pending',
+            }),
           });
 
-          if (!postRes.ok) throw new Error("Error al guardar en el servidor.");
+          if (!postRes.ok) throw new Error('Error al guardar en el servidor.');
 
-          alert(`¡Cuenta registrada exitosamente para ${name}! Quedará pendiente de aprobación por el Administrador.`);
+          alert(`¡Cuenta registrada exitosamente para ${name}!\nQuedará pendiente de aprobación por el Administrador.`);
           formRegisterUser.reset();
           tabBtnLogin.click();
         } catch (err) {
-          console.error("Error al registrar:", err);
-          if (loginError) {
-            loginError.textContent = err.message || 'Error al procesar el registro.';
-            loginError.style.display = 'block';
-          }
+          console.error('Error al registrar:', err);
+          showError(err.message || 'Error al procesar el registro.');
         } finally {
           btn.textContent = 'Registrar Cuenta';
           btn.disabled = false;

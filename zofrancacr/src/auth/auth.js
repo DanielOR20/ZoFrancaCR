@@ -100,26 +100,22 @@ export async function login(email, password) {
 }
 
 /**
- * Crea un usuario nuevo. La función acepta un rol visual (usuario, empresa o
- * colaborador). Por seguridad, el `role` interno siempre es "user" (o uno de
- * sus subtipos) y NUNCA "admin"; el `status` siempre es "pending" hasta que un
- * administrador lo apruebe.
+ * Crea un usuario nuevo. Por seguridad, el `role` siempre es "user" y el
+ * `status` siempre es "pending" hasta que un administrador lo apruebe.
+ * Solo un administrador puede cambiar el rol desde el panel de usuarios.
  */
-export async function register({ name, email, password, role = "user" }) {
+export async function register({ name, email, password }) {
   const existing = await listUsers(email);
   if (Array.isArray(existing) && existing.length) {
     return { ok: false, code: "duplicate" };
   }
-  // Subtipos visuales no administrativos. Nunca permitimos promover a admin.
-  const allowed = ["empresa", "colaborador"];
-  const safeRole = allowed.includes(role) ? role : "user";
   const created = await request(API.users(), {
     method: "POST",
     body: JSON.stringify({
       name,
       email: normEmail(email),
       password,
-      role: safeRole,
+      role: "user",
       status: "pending",
     }),
   });
@@ -141,6 +137,19 @@ export async function updateUserStatus(id, status) {
   return request(`${API.users()}/${encodeURIComponent(id)}`, {
     method: "PATCH",
     body: JSON.stringify({ status }),
+  });
+}
+
+/**
+ * Actualiza el rol de un usuario. Solo debe ser llamado por un administrador.
+ * Roles válidos: "admin", "user", "empresa".
+ */
+export async function updateUserRole(id, role) {
+  const allowed = ["admin", "user", "empresa"];
+  if (!allowed.includes(role)) throw new Error(`Rol no válido: ${role}`);
+  return request(`${API.users()}/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    body: JSON.stringify({ role }),
   });
 }
 

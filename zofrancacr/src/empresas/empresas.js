@@ -334,62 +334,75 @@
    * Enlazar eventos de usuario
    */
   const bindEvents = () => {
-    searchInput.addEventListener('input', (e) => {
-      state.searchQuery = e.target.value;
-      state.currentPage = 1;
-      render();
-    });
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        state.searchQuery = e.target.value;
+        state.currentPage = 1;
+        render();
+      });
+    }
 
-    btnFilterToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = filterMenu.classList.toggle('is-open');
-      btnFilterToggle.setAttribute('aria-expanded', String(isOpen));
-      filterMenu.setAttribute('aria-hidden', String(!isOpen));
-    });
+    if (btnFilterToggle && filterMenu) {
+      btnFilterToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = filterMenu.classList.toggle('is-open');
+        btnFilterToggle.setAttribute('aria-expanded', String(isOpen));
+        filterMenu.setAttribute('aria-hidden', String(!isOpen));
+      });
 
-    document.addEventListener('click', (e) => {
-      if (!filterMenu.contains(e.target) && e.target !== btnFilterToggle) {
+      document.addEventListener('click', (e) => {
+        if (!filterMenu.contains(e.target) && e.target !== btnFilterToggle) {
+          filterMenu.classList.remove('is-open');
+          btnFilterToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    if (btnApplyFilters && filterSector && filterEstado && filterMenu) {
+      btnApplyFilters.addEventListener('click', () => {
+        state.selectedSector = filterSector.value;
+        state.selectedStatus = filterEstado.value;
+        state.currentPage = 1;
         filterMenu.classList.remove('is-open');
-        btnFilterToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
+        render();
+      });
+    }
 
-    btnApplyFilters.addEventListener('click', () => {
-      state.selectedSector = filterSector.value;
-      state.selectedStatus = filterEstado.value;
-      state.currentPage = 1;
-      filterMenu.classList.remove('is-open');
-      render();
-    });
+    if (btnResetFilters && filterSector && filterEstado) {
+      btnResetFilters.addEventListener('click', () => {
+        filterSector.value = 'todos'; filterEstado.value = 'todos';
+        state.selectedSector = 'todos'; state.selectedStatus = 'todos';
+        state.currentPage = 1;
+        render();
+      });
+    }
 
-    btnResetFilters.addEventListener('click', () => {
-      filterSector.value = 'todos'; filterEstado.value = 'todos';
-      state.selectedSector = 'todos'; state.selectedStatus = 'todos';
-      state.currentPage = 1;
-      render();
-    });
+    if (btnExport) btnExport.addEventListener('click', exportToCSV);
 
-    btnExport.addEventListener('click', exportToCSV);
+    if (btnPrevPage) {
+      btnPrevPage.addEventListener('click', () => {
+        if (state.currentPage > 1) { state.currentPage--; render(); }
+      });
+    }
 
-    btnPrevPage.addEventListener('click', () => {
-      if (state.currentPage > 1) { state.currentPage--; render(); }
-    });
+    if (btnNextPage) {
+      btnNextPage.addEventListener('click', () => {
+        const totalPages = Math.ceil(getFilteredData().length / state.itemsPerPage);
+        if (state.currentPage < totalPages) { state.currentPage++; render(); }
+      });
+    }
 
-    btnNextPage.addEventListener('click', () => {
-      const totalPages = Math.ceil(getFilteredData().length / state.itemsPerPage);
-      if (state.currentPage < totalPages) { state.currentPage++; render(); }
-    });
-
-    btnOpenAddModal.addEventListener('click', () => openModal());
-    btnCloseModal.addEventListener('click', closeModal);
-    btnCancelModal.addEventListener('click', closeModal);
+    if (btnOpenAddModal) btnOpenAddModal.addEventListener('click', () => openModal());
+    if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+    if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
 
     // Formulario (Guardar o Editar Asíncrono)
-    companyForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const existingId = companyIdField.value;
-      const newId = companyCodeInput.value.trim();
-      const newName = companyNameInput.value.trim();
+    if (companyForm) {
+      companyForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const existingId = companyIdField ? companyIdField.value : '';
+        const newId = companyCodeInput ? companyCodeInput.value.trim() : '';
+        const newName = companyNameInput ? companyNameInput.value.trim() : '';
       
       const payload = {
         id: newId || 'EMP-' + Math.floor(Math.random() * 10000), // Fallback ID si está vacío
@@ -439,6 +452,7 @@
         btnSubmitForm.disabled = false;
       }
     });
+    }
 
     // Delegación de eventos en tabla
     tableBody.addEventListener('click', (e) => {
@@ -464,5 +478,6 @@
   } else {
     init();
   }
+
 
 })();

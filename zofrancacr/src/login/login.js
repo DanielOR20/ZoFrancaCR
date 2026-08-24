@@ -1,4 +1,4 @@
-﻿import { login, register, appUrl } from "../auth/auth.js";
+import { login, register, appUrl } from "../auth/auth.js";
 
 const MESSAGES = {
   invalid: "Correo o contraseña incorrectos.",
@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const name = val(registerForm, "name");
     const email = val(registerForm, "email");
     const password = val(registerForm, "password");
-    const role = val(registerForm, "role") || "user";
     const btn = registerForm.querySelector('button[type="submit"]');
 
     if (!name || !email || !password) {
@@ -117,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setPending(btn, true);
     setMessage("registerAlert", "info", "Creando tu cuenta…");
     try {
-      const res = await register({ name, email, password, role });
+      const res = await register({ name, email, password });
       setPending(btn, false);
       if (res.ok) {
         setMessage("registerAlert", "success", "Registro exitoso. Tu cuenta quedó pendiente de aprobación.");

@@ -1,4 +1,4 @@
-﻿import "./style.css";
+import "./style.css";
 import "./login/login.css";
 import "./login/login.js";
 
@@ -83,14 +83,6 @@ if (app) {
             </div>
             <p class="auth-alert" id="registerAlert" role="status" aria-live="polite"></p>
             <form class="auth-form" id="registerForm" novalidate>
-              <label class="field">
-                <span class="field__label">Rol</span>
-                <select name="role" id="registerRoleSelect">
-                  <option value="user">Usuario</option>
-                  <option value="empresa">Empresa</option>
-                  <option value="colaborador">Colaborador</option>
-                </select>
-              </label>
               <label class="field">
                 <span class="field__label">Nombre completo</span>
                 <input type="text" name="name" placeholder="Tu nombre completo" autocomplete="name" required>

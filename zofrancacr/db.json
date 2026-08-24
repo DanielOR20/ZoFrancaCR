@@ -1,13 +1,4 @@
 {
-  "usuarios": [
-    {
-      "id": "admin_zofranca",
-      "usuario": "admin",
-      "password": "123",
-      "rol": "administrador",
-      "nombre": "Administrador Principal"
-    }
-  ],
   "empresas": [
     {
       "id": "EMP-1042",
@@ -70,7 +61,38 @@
       "registeredDate": "10 Nov 2023"
     }
   ],
-  "solicitudes_instalacion": [],
+  "solicitudes_instalacion": [
+    {
+      "id": "1787343463165",
+      "nombre_empresa": "MedTech Global CR",
+      "inversion_proyectada": 3500000,
+      "empleos_proyectados": 180,
+      "fecha_solicitud": "2026-08-21T20:17:43.165Z",
+      "ia_puntaje": 93,
+      "ia_justificacion": "Alta inversión y fuerte dinamismo laboral.",
+      "clasificacion": "avanza"
+    },
+    {
+      "id": "1787343596855",
+      "nombre_empresa": "MedTech Global CR",
+      "inversion_proyectada": 3500000,
+      "empleos_proyectados": 180,
+      "fecha_solicitud": "2026-08-21T20:19:56.855Z",
+      "ia_puntaje": 88,
+      "ia_justificacion": "Alta inversión y fuerte dinamismo laboral.",
+      "clasificacion": "avanza"
+    },
+    {
+      "id": "1787344463764",
+      "nombre_empresa": "Test Enterprise IA",
+      "inversion_proyectada": 4500000,
+      "empleos_proyectados": 250,
+      "fecha_solicitud": "2026-08-21T20:34:23.764Z",
+      "ia_puntaje": 92,
+      "ia_justificacion": "Alta inversión y fuerte dinamismo laboral.",
+      "clasificacion": "avanza"
+    }
+  ],
   "auditorias": [],
   "users": [
     {
