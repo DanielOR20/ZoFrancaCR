@@ -6,23 +6,24 @@
     <title>ZoFranca - Reportes Analíticos</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="reportes.css">
+    <script src="/src/authGuard.js"></script>
 </head>
 <body>
     <div class="app-container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo-container">
-                <h2>ZoFranca</h2>
+                <a href="/index.html" style="text-decoration: none; color: inherit;"><h2>ZoFranca</h2></a>
             </div>
             <nav class="nav-menu">
-                <a href="#" class="nav-item"><span class="material-icons">dashboard</span> Dashboard</a>
-                <a href="#" class="nav-item"><span class="material-icons">business</span> Empresas</a>
-                <a href="#" class="nav-item"><span class="material-icons">people</span> Empleados</a>
-                <a href="#" class="nav-item"><span class="material-icons">description</span> Documentos</a>
-                <a href="#" class="nav-item"><span class="material-icons">assignment</span> Solicitudes</a>
-                <a href="#" class="nav-item active"><span class="material-icons">bar_chart</span> Reportes</a>
-                <a href="#" class="nav-item"><span class="material-icons">group</span> Usuarios</a>
-                <a href="#" class="nav-item"><span class="material-icons">settings</span> Configuración</a>
+                <a href="/src/dashboard/dashboard.html" class="nav-item"><span class="material-icons">dashboard</span> Dashboard</a>
+                <a href="/src/empresas/empresas.html" class="nav-item"><span class="material-icons">business</span> Empresas</a>
+                <a href="/src/empleados/empleados.html" class="nav-item"><span class="material-icons">people</span> Empleados</a>
+                <a href="/src/documents/documents.html" class="nav-item"><span class="material-icons">description</span> Documentos</a>
+                <a href="/src/solicitudes/solicitudes.html" class="nav-item"><span class="material-icons">assignment</span> Solicitudes</a>
+                <a href="/src/reportes/reportes.html" class="nav-item active"><span class="material-icons">bar_chart</span> Reportes</a>
+                <a href="/src/usuarios/usuarios.html" class="nav-item"><span class="material-icons">group</span> Usuarios</a>
+                <a href="#" class="nav-item" onclick="alert('Configuración en desarrollo')"><span class="material-icons">settings</span> Configuración</a>
             </nav>
         </aside>
 

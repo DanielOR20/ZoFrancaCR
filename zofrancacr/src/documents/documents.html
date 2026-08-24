@@ -6,23 +6,24 @@
     <title>Document Management - ZoFranca</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="documents.css">
+    <script src="/src/authGuard.js"></script>
 </head>
 <body class="zofranca-body">
 
     <!-- Barra Lateral (Sidebar) -->
     <aside class="sidebar">
         <div class="logo-area">
-            <h2>ZoFranca</h2>
+            <a href="/index.html" style="text-decoration: none; color: inherit;"><h2>ZoFranca</h2></a>
         </div>
         <nav class="nav-menu">
-            <a href="#" class="nav-item">Dashboard</a>
-            <a href="#" class="nav-item">Empresas</a>
-            <a href="#" class="nav-item">Empleados</a>
-            <a href="#" class="nav-item active">Documentos</a>
-            <a href="#" class="nav-item">Solicitudes</a>
-            <a href="#" class="nav-item">Reportes</a>
-            <a href="#" class="nav-item">Usuarios</a>
-            <a href="#" class="nav-item">Configuración</a>
+            <a href="/src/dashboard/dashboard.html" class="nav-item">Dashboard</a>
+            <a href="/src/empresas/empresas.html" class="nav-item">Empresas</a>
+            <a href="/src/empleados/empleados.html" class="nav-item">Empleados</a>
+            <a href="/src/documents/documents.html" class="nav-item active">Documentos</a>
+            <a href="/src/solicitudes/solicitudes.html" class="nav-item">Solicitudes</a>
+            <a href="/src/reportes/reportes.html" class="nav-item">Reportes</a>
+            <a href="/src/usuarios/usuarios.html" class="nav-item">Usuarios</a>
+            <a href="#" class="nav-item" onclick="alert('Configuración en desarrollo')">Configuración</a>
         </nav>
     </aside>
 
